@@ -2,7 +2,7 @@ apply plugin: 'java'
 apply plugin: 'application'
 mainClassName = 'HelloWorld'
 
-repositories{
+repositories {
     mavenCentral()
 }
 
