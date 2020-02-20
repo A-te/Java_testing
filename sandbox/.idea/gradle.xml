@@ -4,29 +4,30 @@
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
-        <option name="delegatedBuild" value="true" />
-        <option name="testRunner" value="GRADLE" />
+        <option name="delegatedBuild" value="false" />
+        <option name="testRunner" value="PLATFORM" />
         <option name="distributionType" value="DEFAULT_WRAPPED" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/addressbook-tests" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/../addressbook-tests" />
+        <option name="gradleJvm" value="11 (2)" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$/addressbook-tests" />
+            <option value="$PROJECT_DIR$/../addressbook-tests" />
           </set>
         </option>
         <option name="useAutoImport" value="true" />
         <option name="useQualifiedModuleNames" value="true" />
       </GradleProjectSettings>
       <GradleProjectSettings>
-        <option name="delegatedBuild" value="false" />
-        <option name="testRunner" value="PLATFORM" />
+        <option name="delegatedBuild" value="true" />
+        <option name="testRunner" value="GRADLE" />
         <option name="distributionType" value="DEFAULT_WRAPPED" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/sandbox" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="gradleJvm" value="11 (2)" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$/sandbox" />
+            <option value="$PROJECT_DIR$" />
           </set>
         </option>
-        <option name="useAutoImport" value="true" />
         <option name="useQualifiedModuleNames" value="true" />
       </GradleProjectSettings>
     </option>
