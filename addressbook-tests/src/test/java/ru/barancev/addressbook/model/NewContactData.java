@@ -1,6 +1,6 @@
-package ru.barancev.addressbook;
+package ru.barancev.addressbook.model;
 
-public class NewContact {
+public class NewContactData {
     private final String firstname;
     private final String middlename;
     private final String lastname;
@@ -10,7 +10,7 @@ public class NewContact {
     private final String address;
     private final String homePhone;
 
-    public NewContact(String firstname, String middlename, String lastname, String nickname, String title, String company, String address, String homePhone) {
+    public NewContactData(String firstname, String middlename, String lastname, String nickname, String title, String company, String address, String homePhone) {
         this.firstname = firstname;
         this.middlename = middlename;
         this.lastname = lastname;

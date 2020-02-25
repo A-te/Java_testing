@@ -1,12 +1,12 @@
-package ru.barancev.addressbook;
+package ru.barancev.addressbook.tests;
 
 import java.util.concurrent.TimeUnit;
 import org.testng.annotations.*;
-import static org.testng.Assert.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import ru.barancev.addressbook.model.NewContactData;
 
-public class ContactCreation {
+public class ContactCreationTests {
   private WebDriver wd;
 
 
@@ -31,7 +31,7 @@ public class ContactCreation {
   @Test
   public void testContactCreation() throws Exception {
     gotoAddNewContact();
-    fillContactFields(new NewContact("Peter", "I", "Pen", "PeterP", "Mr", "Good Company", "5858 GoodGuy Street, London, England", "455-566-5951"));
+    fillContactFields(new NewContactData("Peter", "I", "Pen", "PeterP", "Mr", "Good Company", "5858 GoodGuy Street, London, England", "455-566-5951"));
     submitNewContact();
     gotoHomePage();
     deleteNewContact();
@@ -67,7 +67,7 @@ public class ContactCreation {
     wd.findElement(By.linkText("add new")).click();
   }
 
-  private void fillContactFields(NewContact newContact) {
+  private void fillContactFields(NewContactData newContact) {
     wd.findElement(By.name("firstname")).click();
     wd.findElement(By.name("firstname")).clear();
     wd.findElement(By.name("firstname")).sendKeys(newContact.getFirstname());
