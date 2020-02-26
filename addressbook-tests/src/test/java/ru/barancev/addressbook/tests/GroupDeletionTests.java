@@ -2,7 +2,7 @@ package ru.barancev.addressbook.tests;
 
 import org.testng.annotations.Test;
 
-public class DeleteGroupTests extends TestBase {
+public class GroupDeletionTests extends TestBase {
 
 
   @Test

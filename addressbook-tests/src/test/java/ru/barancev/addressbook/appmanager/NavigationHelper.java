@@ -21,4 +21,9 @@ public class NavigationHelper extends BaseHelper {
     public void logout() {
         click(By.linkText("Logout"));
     }
+
+    public void gotoAddNewContact() {
+        click(By.linkText("add new"));
+
+    }
 }
