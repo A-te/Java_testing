@@ -11,25 +11,26 @@ public class ContactHelper extends BaseHelper {
         super(wd);
     }
 
-    public void deleteNewContact() {
-      click(By.name("selected[]"));
-      click(By.xpath("//input[@value='Delete']"));
-      wd.switchTo().alert().accept();
+    public void deleteContact() {
+        click(By.name("selected[]"));
+        click(By.xpath("//input[@value='Delete']"));
+        wd.switchTo().alert().accept();
     }
 
     public void submitNewContact() {
-      click(By.xpath("(//input[@name='submit'])[2]"));
+        click(By.xpath("(//input[@name='submit'])[2]"));
     }
 
     public void fillContactFields(NewContactData newContact) {
-      type(By.name("firstname"), newContact.getFirstname());
-      type(By.name("middlename"), newContact.getMiddlename());
-      type(By.name("lastname"), newContact.getLastname());
-      type(By.name("nickname"), newContact.getNickname());
-      type(By.name("title"), newContact.getTitle());
-      type(By.name("company"), newContact.getCompany());
-      type(By.name("address"), newContact.getAddress());
-      type(By.name("home"), newContact.getHomePhone());
+        type(By.name("firstname"), newContact.getFirstname());
+        type(By.name("middlename"), newContact.getMiddlename());
+        type(By.name("lastname"), newContact.getLastname());
+        type(By.name("nickname"), newContact.getNickname());
+        type(By.name("title"), newContact.getTitle());
+        type(By.name("company"), newContact.getCompany());
+        type(By.name("address"), newContact.getAddress());
+        type(By.name("home"), newContact.getHomePhone());
 
     }
 }
+

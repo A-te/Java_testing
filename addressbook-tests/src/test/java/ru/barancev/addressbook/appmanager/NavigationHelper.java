@@ -26,4 +26,16 @@ public class NavigationHelper extends BaseHelper {
         click(By.linkText("add new"));
 
     }
+
+    public void gotoContactEdit() {
+        click(By.xpath("(//img[@alt='Edit'])"));
+    }
+
+    public void gotoContactSelect() {
+        click(By.linkText("selected[]"));
+    }
+
+    public void gotoContactDelete() {
+        click(By.xpath("(//input[@value='Delete'])"));
+    }
 }
