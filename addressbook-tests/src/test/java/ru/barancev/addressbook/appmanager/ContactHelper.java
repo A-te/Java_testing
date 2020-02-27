@@ -32,5 +32,9 @@ public class ContactHelper extends BaseHelper {
         type(By.name("home"), newContact.getHomePhone());
 
     }
+
+    public void clickUpdateContact() {
+        click(By.name("update"));
+    }
 }
 
