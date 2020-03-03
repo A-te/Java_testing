@@ -1,7 +1,10 @@
 package ru.barancev.addressbook.appmanager;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.Select;
+import org.testng.Assert;
 import ru.barancev.addressbook.model.NewContactData;
 
 public class ContactHelper extends BaseHelper {
@@ -21,7 +24,7 @@ public class ContactHelper extends BaseHelper {
         click(By.xpath("(//input[@name='submit'])[2]"));
     }
 
-    public void fillContactFields(NewContactData newContact) {
+    public void fillContactFields(NewContactData newContact, boolean creation) {
         type(By.name("firstname"), newContact.getFirstname());
         type(By.name("middlename"), newContact.getMiddlename());
         type(By.name("lastname"), newContact.getLastname());
@@ -30,6 +33,12 @@ public class ContactHelper extends BaseHelper {
         type(By.name("company"), newContact.getCompany());
         type(By.name("address"), newContact.getAddress());
         type(By.name("home"), newContact.getHomePhone());
+
+        if (creation) {
+            new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(newContact.getGroup());
+        } else {
+            Assert.assertFalse(isElementPresent(By.name("new_group")));
+        }
 
     }
 
