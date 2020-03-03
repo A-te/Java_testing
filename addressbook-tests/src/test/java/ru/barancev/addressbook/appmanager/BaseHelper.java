@@ -6,13 +6,13 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 
 public class BaseHelper {
-    protected WebDriver wd;
+    protected static WebDriver wd;
 
     public BaseHelper(WebDriver wd) {
         this.wd = wd;
     }
 
-    protected void click(By locator) {
+    protected static void click(By locator) {
         wd.findElement(locator).click();
     }
 
@@ -38,7 +38,7 @@ public class BaseHelper {
         }
     }
 
-    protected boolean isElementPresent(By locator) {
+    protected static boolean isElementPresent(By locator) {
         try {
             wd.findElement(locator);
             return true;

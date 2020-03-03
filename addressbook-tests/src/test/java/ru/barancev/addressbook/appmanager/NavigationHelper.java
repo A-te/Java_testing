@@ -19,7 +19,7 @@ public class NavigationHelper extends BaseHelper {
         click(By.linkText("groups"));
     }
 
-    public void gotoHomePage() {
+    public static void gotoHomePage() {
         if (isElementPresent(By.id("maintable"))) {
             return;
         }
@@ -30,7 +30,7 @@ public class NavigationHelper extends BaseHelper {
         click(By.linkText("Logout"));
     }
 
-    public void gotoAddNewContact() {
+    public static void gotoAddNewContact() {
         click(By.linkText("add new"));
 
     }

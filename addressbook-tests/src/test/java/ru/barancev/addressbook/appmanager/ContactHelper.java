@@ -1,7 +1,6 @@
 package ru.barancev.addressbook.appmanager;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
@@ -44,6 +43,19 @@ public class ContactHelper extends BaseHelper {
 
     public void clickUpdateContact() {
         click(By.name("update"));
+    }
+
+    public boolean isContactPresent() {
+        return (isElementPresent(By.name("selected[]")));
+//        return (isElementPresent(By.name("selected[]"))
+//                && isElementPresent(By.xpath("(//a[contains(text(),'Last name')]")));
+    }
+
+    public void createContact(NewContactData newContact, boolean creation) {
+        NavigationHelper.gotoAddNewContact();
+        fillContactFields (newContact, true);
+        submitNewContact();
+        NavigationHelper.gotoHomePage();
     }
 }
 
