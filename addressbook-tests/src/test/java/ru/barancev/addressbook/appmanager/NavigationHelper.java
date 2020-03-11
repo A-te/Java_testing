@@ -35,12 +35,18 @@ public class NavigationHelper extends BaseHelper {
 
     }
 
-    public void gotoContactEdit() {
-        click(By.xpath("(//img[@alt='Edit'])"));
+    public void gotoContactEdit(int index) {
+        wd.findElements(By.xpath("(//img[@alt='Edit'])")).get(index).click();
+
+        //click(By.xpath("(//img[@alt='Edit'])"));
     }
 
-    public void gotoContactSelect() {
-        click(By.linkText("selected[]"));
+    public void gotoContactSelect(int index) {
+        //Поиск элемента по индексу списка
+        wd.findElements(By.name("selected[]")).get(index).click();
+
+        //Выбор первого на странице элемента
+        //click(By.xpath("(//tr[5]//td[1]//input[1])"));
     }
 
     public void gotoContactDelete() {
