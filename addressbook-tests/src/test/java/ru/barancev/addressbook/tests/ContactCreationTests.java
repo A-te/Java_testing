@@ -4,6 +4,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import ru.barancev.addressbook.model.NewContactData;
 
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 
@@ -35,17 +36,38 @@ public class ContactCreationTests extends TestBase {
 
     //Сравнение количества контактов до и после создания
     //Assert.assertEquals(after, before + 1);
+
     Assert.assertEquals(after.size(), before.size() + 1);
 
 
     //app.getContactHelper().deleteContact();
 
-    int max = 0;
-    for (NewContactData x : after){
-      if (x.getId() > max){
-        max = x.getId();
-      }
-    }
+    // Обычный цикл для нахождения наибольшего значения id
+//    int max = 0;
+//    for (NewContactData x : after){
+//      if (x.getId() > max){
+//        max = x.getId();
+//      }
+//    }
+
+//    // Возможности Java 6 для нахождения наибольшего значения id
+//    Comparator<? super NewContactData> byId = new Comparator<NewContactData>() {
+//      @Override
+//      public int compare(NewContactData o1, NewContactData o2) {
+//        return Integer.compare(o1.getId(), o2.getId());
+//      }
+//    };
+//    int max = after.stream().max(byId).get().getId();
+    
+
+    // Возможности Java 8 для нахождения наибольшего значения id
+//    Comparator<? super NewContactData> byId = (o1, o2) -> Integer.compare(o1.getId(), o2.getId());
+//    int max = after.stream().max(byId).get().getId();
+
+
+    // Возможности Java 9 для нахождения наибольшего значения id
+    int max = after.stream().max((o1, o2) -> Integer.compare(o1.getId(), o2.getId())).get().getId();
+
     contact.setId(max);
     before.add(contact);
 
