@@ -58,7 +58,7 @@ public class ContactCreationTests extends TestBase {
 //      }
 //    };
 //    int max = after.stream().max(byId).get().getId();
-    
+
 
     // Возможности Java 8 для нахождения наибольшего значения id
 //    Comparator<? super NewContactData> byId = (o1, o2) -> Integer.compare(o1.getId(), o2.getId());
@@ -71,8 +71,14 @@ public class ContactCreationTests extends TestBase {
     contact.setId(max);
     before.add(contact);
 
+    //Сравнение через упорядоченные списки
+    Comparator<? super NewContactData> byId = (c1, c2) -> Integer.compare(c1.getId(), c2.getId());
+    before.sort(byId);
+    after.sort(byId);
+    Assert.assertEquals(after, before);
 
-    Assert.assertEquals(new HashSet<Object>(after), new HashSet<Object>(before));
+    //Сравнение через множества (сеты)
+    //Assert.assertEquals(new HashSet<Object>(after), new HashSet<Object>(before));
 
 
   }
