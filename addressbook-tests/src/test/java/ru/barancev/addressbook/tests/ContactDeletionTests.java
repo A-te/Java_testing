@@ -11,20 +11,23 @@ public class ContactDeletionTests extends TestBase {
 
     @Test
     public void testDeleteContact() throws InterruptedException {
+        //NavigationHelper.gotoHomePage();
+        app.getNavigationHelper().gotoHomePage();
+
+
         if (! app.getContactHelper().isContactPresent()) {
             app.getContactHelper().createContact(new NewContactData("Peter", "I",
                     "Pen", "PeterP", "Mr", "Good Company",
                     "5858 GoodGuy Street, London, England",
                     "455-566-5951", "test1"), true);
         }
-        NavigationHelper.gotoHomePage();
 
         List<NewContactData> before = app.getContactHelper().getContactList();
 
         //int before = app.getContactHelper().getContactsCount();
         app.getContactHelper().deleteContact(before.size() - 1);
         NavigationHelper.gotoHomePage();
-        Thread.sleep(3000);
+        Thread.sleep(4000);
 
         List<NewContactData> after = app.getContactHelper().getContactList();
 
