@@ -6,7 +6,6 @@ import ru.barancev.addressbook.appmanager.NavigationHelper;
 import ru.barancev.addressbook.model.NewContactData;
 
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
 
 public class ContactModificationTests extends TestBase {
@@ -20,12 +19,12 @@ public class ContactModificationTests extends TestBase {
                     "5858 GoodGuy Street, London, England",
                     "455-566-5951", "test1"), true);
         }
-        app.getNavigationHelper().gotoHomePage();
+        app.goTo().gotoHomePage();
         List<NewContactData> before = app.getContactHelper().getContactList();
 
         //int before = app.getContactHelper().getContactsCount();
         //app.getNavigationHelper().gotoContactSelect(before - 1);
-        app.getNavigationHelper().gotoContactEdit(before.size()-1);
+        app.goTo().gotoContactEdit(before.size()-1);
         NewContactData contact = new NewContactData(before.get(before.size()-1).getId(),"Peter3333", "I2",
                 "Pen222", "PeterP2", "Mr", "Good Company",
                 "5858 GoodGuy Street, London, England", "455-566-5951",

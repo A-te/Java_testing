@@ -5,7 +5,6 @@ import org.testng.annotations.Test;
 import ru.barancev.addressbook.model.NewContactData;
 
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
 
 public class ContactCreationTests extends TestBase {
@@ -13,21 +12,21 @@ public class ContactCreationTests extends TestBase {
 
   @Test
   public void testContactCreation() throws Exception {
-    app.getNavigationHelper().gotoHomePage();
+    app.goTo().gotoHomePage();
 
     //Формирование списка контактов до создания нового контакта
     List<NewContactData> before = app.getContactHelper().getContactList();
 
     //int before = app.getContactHelper().getContactsCount();
 
-    app.getNavigationHelper().gotoAddNewContact();
+    app.goTo().gotoAddNewContact();
     NewContactData contact = new NewContactData("Peter", "I",
             "Pen", "PeterP", "Mr", "Good Company",
             "5858 GoodGuy Street, London, England",
             "455-566-5951", "test1");
     app.getContactHelper().fillContactFields(contact, true);
     app.getContactHelper().submitNewContact();
-    app.getNavigationHelper().gotoHomePage();
+    app.goTo().gotoHomePage();
 
     //Формирование списка контактов после создания нового контакта
     List<NewContactData> after = app.getContactHelper().getContactList();

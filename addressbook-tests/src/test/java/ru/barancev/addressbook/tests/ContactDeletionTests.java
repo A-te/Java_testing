@@ -12,7 +12,7 @@ public class ContactDeletionTests extends TestBase {
     @Test
     public void testDeleteContact() throws InterruptedException {
         //NavigationHelper.gotoHomePage();
-        app.getNavigationHelper().gotoHomePage();
+        app.goTo().gotoHomePage();
 
 
         if (! app.getContactHelper().isContactPresent()) {
