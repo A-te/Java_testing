@@ -14,6 +14,7 @@ public class ContactCreationTests extends TestBase {
   @Test
   public void testContactCreation() throws Exception {
     app.getNavigationHelper().gotoHomePage();
+
     //Формирование списка контактов до создания нового контакта
     List<NewContactData> before = app.getContactHelper().getContactList();
 
