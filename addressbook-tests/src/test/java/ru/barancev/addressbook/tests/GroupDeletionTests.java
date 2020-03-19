@@ -5,7 +5,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.barancev.addressbook.model.GroupData;
 
-import java.util.List;
+import java.util.Set;
 
 public class GroupDeletionTests extends TestBase {
 
@@ -13,7 +13,7 @@ public class GroupDeletionTests extends TestBase {
     public void ensurePrecondition(){
         app.goTo().groupPage();
 
-        if (app.group().list().size() == 0) {
+        if (app.group().allSet().size() == 0) {
             app.group().create(new GroupData().withName("test1").withHeader("test2").withFooter("test3"));
         }
     }
@@ -23,16 +23,23 @@ public class GroupDeletionTests extends TestBase {
     public void testDeleteGroup() throws Exception {
 
         //int before = app.getGroupHelper().getGroupCount();
-        List<GroupData> before = app.group().list();
+        Set<GroupData> before = app.group().allSet();
 
-        int index = before.size() - 1;
-        app.group().delete(index);
+        GroupData groupToDelete = before.iterator().next();
+
+        //int index = before.size() - 1;
+
+        app.group().delete(groupToDelete);
 
         //int after = app.getGroupHelper().getGroupCount();
-        List<GroupData> after = app.group().list();
+
+        Set<GroupData> after = app.group().allSet();
         Assert.assertEquals(after.size(), before.size() - 1);
 
-        before.remove(index);
+      //  before.remove(index);
+        before.remove(groupToDelete);
+
+
 //        for (int i = 0; i < before.size() - 1; i++){
 //            Assert.assertEquals(before.get(i), after.get(i));
 //        }
