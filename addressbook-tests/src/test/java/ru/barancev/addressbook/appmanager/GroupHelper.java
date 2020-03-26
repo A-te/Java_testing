@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import ru.barancev.addressbook.model.GroupData;
+import ru.barancev.addressbook.model.Groups;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -85,8 +86,22 @@ public class GroupHelper extends BaseHelper {
         return groups;
     }
 // Метод для создания множества
-    public Set<GroupData> allSet() {
-        Set<GroupData> groups = new HashSet<>();
+//    public Set<GroupData> allSet() {
+//        Set<GroupData> groups = new HashSet<>();
+//        List<WebElement> elements = wd.findElements(By.cssSelector("span.group"));
+//        for (WebElement element : elements){
+//            String name = element.getText();
+//            int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
+//            //GroupData group = new GroupData().withId(id).withName(name) ;
+//            groups.add(new GroupData().withId(id).withName(name));
+//        }
+//        return groups;
+//    }
+
+
+// Изменение метода для Hamcrest
+    public Groups allSet() {
+        Groups groups = new Groups();
         List<WebElement> elements = wd.findElements(By.cssSelector("span.group"));
         for (WebElement element : elements){
             String name = element.getText();
@@ -96,6 +111,7 @@ public class GroupHelper extends BaseHelper {
         }
         return groups;
     }
+
 
 //    public void modify(int index, GroupData group) {
 //        selectGroup(index);

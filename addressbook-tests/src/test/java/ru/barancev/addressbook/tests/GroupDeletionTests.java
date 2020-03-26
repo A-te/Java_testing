@@ -1,11 +1,18 @@
 package ru.barancev.addressbook.tests;
 
+import org.hamcrest.CoreMatchers;
+import org.hamcrest.MatcherAssert;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.barancev.addressbook.model.GroupData;
+import ru.barancev.addressbook.model.Groups;
 
 import java.util.Set;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.testng.Assert.assertEquals;
 
 public class GroupDeletionTests extends TestBase {
 
@@ -23,7 +30,7 @@ public class GroupDeletionTests extends TestBase {
     public void testDeleteGroup() throws Exception {
 
         //int before = app.getGroupHelper().getGroupCount();
-        Set<GroupData> before = app.group().allSet();
+        Groups before = app.group().allSet();
 
         GroupData groupToDelete = before.iterator().next();
 
@@ -33,18 +40,20 @@ public class GroupDeletionTests extends TestBase {
 
         //int after = app.getGroupHelper().getGroupCount();
 
-        Set<GroupData> after = app.group().allSet();
-        Assert.assertEquals(after.size(), before.size() - 1);
+        Groups after = app.group().allSet();
+        assertEquals(after.size(), before.size() - 1);
 
       //  before.remove(index);
-        before.remove(groupToDelete);
+        //Лекция 5.6. Hamcrest: улучшение внешнего вида проверок
+        //before.remove(groupToDelete);
 
 
 //        for (int i = 0; i < before.size() - 1; i++){
 //            Assert.assertEquals(before.get(i), after.get(i));
 //        }
-
-        Assert.assertEquals(before, after);
+        //Лекция 5.6. Hamcrest: улучшение внешнего вида проверок
+        //Assert.assertEquals(before, after);
+        assertThat(after, equalTo(before.withOut(groupToDelete)));
     }
 
 
