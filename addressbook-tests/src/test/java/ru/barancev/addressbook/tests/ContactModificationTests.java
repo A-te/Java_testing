@@ -3,7 +3,7 @@ package ru.barancev.addressbook.tests;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import ru.barancev.addressbook.model.NewContactData;
+import ru.barancev.addressbook.model.ContactData;
 import java.util.Comparator;
 import java.util.List;
 
@@ -12,10 +12,10 @@ public class ContactModificationTests extends TestBase {
     @BeforeMethod
     public void ensurePreconditions(){
         if (app.contact().list().size() == 0) {
-            app.contact().create(new NewContactData("Peter", "I",
-                    "Pen", "PeterP", "Mr", "Good Company",
-                    "5858 GoodGuy Street, London, England",
-                    "455-566-5951", "test1"), true);
+            app.contact().create(new ContactData().withFirstname("Peter").withMiddlename("I")
+                    .withLastname("Pen").withNickname("PeterP").withTitle("Mr").withCompany("Good Company")
+                    .withAddress("5858 GoodGuy Street, London, England").withHomePhone("455-566-5951")
+                    .withGroup("test1"), true);
         }
     }
 
@@ -24,18 +24,18 @@ public class ContactModificationTests extends TestBase {
     public void testContactModification(){
 
         app.goTo().homePage();
-        List<NewContactData> before = app.contact().list();
+        List<ContactData> before = app.contact().list();
         int index = before.size()-1;
-        NewContactData contact = new NewContactData(before.get(index).getId(),"Peter3333", "I2",
-                "Pen222", "PeterP2", "Mr", "Good Company",
-                "5858 GoodGuy Street, London, England", "455-566-5951",
-                null);
+        ContactData contact = new ContactData().withId(before.get(index).getId())
+                .withFirstname("Peter3333").withMiddlename("I2").withLastname("Pen222")
+                .withNickname("PeterP2").withTitle("Mr").withCompany("Good Company")
+                .withAddress("5858 GoodGuy Street, London, England").withHomePhone("455-566-5951");
 
         //int before = app.getContactHelper().getContactsCount();
         //app.getNavigationHelper().gotoContactSelect(before - 1);
 
         app.contact().modify(index, contact);
-        List<NewContactData> after = app.contact().list();
+        List<ContactData> after = app.contact().list();
 
         //int after = app.getContactHelper().getContactsCount();
 
@@ -46,7 +46,7 @@ public class ContactModificationTests extends TestBase {
         before.add(contact);
 
         // Сравнение сортированных списков
-        Comparator<? super NewContactData> byId = (c1, c2) -> Integer.compare(c1.getId(), c2.getId());
+        Comparator<? super ContactData> byId = (c1, c2) -> Integer.compare(c1.getId(), c2.getId());
         before.sort(byId);
         after.sort(byId);
         Assert.assertEquals(before, after);

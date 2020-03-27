@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
-import ru.barancev.addressbook.model.NewContactData;
+import ru.barancev.addressbook.model.ContactData;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +33,7 @@ public class ContactHelper extends BaseHelper {
         click(By.xpath("(//input[@name='submit'])[2]"));
     }
 
-    public void fillContactFields(NewContactData newContact, boolean creation) {
+    public void fillContactFields(ContactData newContact, boolean creation) {
         type(By.name("firstname"), newContact.getFirstname());
         type(By.name("middlename"), newContact.getMiddlename());
         type(By.name("lastname"), newContact.getLastname());
@@ -61,7 +61,7 @@ public class ContactHelper extends BaseHelper {
 //                && isElementPresent(By.xpath("(//a[contains(text(),'Last name')]")));
     }
 
-    public void create(NewContactData newContact, boolean creation) {
+    public void create(ContactData newContact, boolean creation) {
         NavigationHelper.gotoAddNewContact();
         fillContactFields (newContact, true);
         submitNewContact();
@@ -73,8 +73,8 @@ public class ContactHelper extends BaseHelper {
 
     }
     // метод создания списка обьектов, имеющих имя и фамилию, из имеющихся контактов
-    public List<NewContactData> list() {
-        List<NewContactData> contacts = new ArrayList<>();
+    public List<ContactData> list() {
+        List<ContactData> contacts = new ArrayList<>();
         //List<WebElement> elements = wd.findElements(By.xpath("(//table[@id='maintable']/tbody/tr)"));
         List<WebElement> elements = wd.findElements(By.name("entry"));
         for (WebElement element : elements){
@@ -85,15 +85,15 @@ public class ContactHelper extends BaseHelper {
             //int id = Integer.parseInt(ids);
 
             // Или можно сразу вычленять инт
-            int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
-            NewContactData contact = new NewContactData(id, firstname, null, lastname,
-                    null, null, null, null, null, null);
-            contacts.add(contact);
+            int id = Integer.parseInt(element.findElement(By.tagName("input"))
+                    .getAttribute("value"));
+            contacts.add(new ContactData().withId(id).withFirstname(firstname)
+                    .withLastname(lastname));
         }
         return contacts;
     }
 
-    public void modify(int index, NewContactData contact) {
+    public void modify(int index, ContactData contact) {
         NavigationHelper.gotoContactEdit(index);
         fillContactFields(contact, false);
         clickUpdateContact();
@@ -105,7 +105,7 @@ public class ContactHelper extends BaseHelper {
         NavigationHelper.homePage();
     }
 
-    public void create(NewContactData contact) {
+    public void create(ContactData contact) {
         NavigationHelper.gotoAddNewContact();
         fillContactFields(contact, true);
         submitNewContact();
