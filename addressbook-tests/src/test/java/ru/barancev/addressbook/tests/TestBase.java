@@ -9,7 +9,7 @@ public class TestBase {
 
     //protected final ApplicationManager app = new ApplicationManager();
 
-    protected static final ApplicationManager app = new ApplicationManager(BrowserType.FIREFOX);
+    public static final ApplicationManager app = new ApplicationManager(BrowserType.FIREFOX);
     //protected final ApplicationManager app = new ApplicationManager(BrowserType.FIREFOX);
 
 

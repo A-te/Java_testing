@@ -1,6 +1,7 @@
 package ru.barancev.addressbook.tests;
 
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.barancev.addressbook.appmanager.NavigationHelper;
 import ru.barancev.addressbook.model.NewContactData;
@@ -9,18 +10,28 @@ import java.util.List;
 
 public class ContactDeletionTests extends TestBase {
 
-    @Test
-    public void testDeleteContact() throws InterruptedException {
-        //NavigationHelper.gotoHomePage();
-        app.goTo().gotoHomePage();
-
-
+    @BeforeMethod
+    public void ensurePreconditions(){
         if (! app.getContactHelper().isContactPresent()) {
             app.getContactHelper().createContact(new NewContactData("Peter", "I",
                     "Pen", "PeterP", "Mr", "Good Company",
                     "5858 GoodGuy Street, London, England",
                     "455-566-5951", "test1"), true);
         }
+    }
+
+    @Test
+    public void testDeleteContact() throws InterruptedException {
+        //NavigationHelper.gotoHomePage();
+        app.goTo().gotoHomePage();
+
+        //Перенесли в @BeforeMethod
+//        if (! app.getContactHelper().isContactPresent()) {
+//            app.getContactHelper().createContact(new NewContactData("Peter", "I",
+//                    "Pen", "PeterP", "Mr", "Good Company",
+//                    "5858 GoodGuy Street, London, England",
+//                    "455-566-5951", "test1"), true);
+//        }
 
         List<NewContactData> before = app.getContactHelper().getContactList();
 

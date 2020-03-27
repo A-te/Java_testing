@@ -6,9 +6,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.barancev.addressbook.model.NewContactData;
-
 import java.util.ArrayList;
 import java.util.List;
+
+
 
 public class ContactHelper extends BaseHelper {
 
@@ -90,6 +91,13 @@ public class ContactHelper extends BaseHelper {
             contacts.add(contact);
         }
         return contacts;
+    }
+
+    public void contactToModify(int index, NewContactData contact) {
+        NavigationHelper.gotoContactEdit(index);
+        fillContactFields(contact, false);
+        clickUpdateContact();
+        NavigationHelper.gotoHomePage();
     }
 }
 

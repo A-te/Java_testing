@@ -35,7 +35,7 @@ public class NavigationHelper extends BaseHelper {
 
     }
 
-    public void gotoContactEdit(int index) {
+    public static void gotoContactEdit(int index) {
         wd.findElements(By.xpath("(//img[@alt='Edit'])")).get(index).click();
 
         //click(By.xpath("(//img[@alt='Edit'])"));
