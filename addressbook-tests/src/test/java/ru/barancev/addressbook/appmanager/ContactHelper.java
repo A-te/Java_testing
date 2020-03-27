@@ -61,11 +61,11 @@ public class ContactHelper extends BaseHelper {
 //                && isElementPresent(By.xpath("(//a[contains(text(),'Last name')]")));
     }
 
-    public void createContact(NewContactData newContact, boolean creation) {
+    public void create(NewContactData newContact, boolean creation) {
         NavigationHelper.gotoAddNewContact();
         fillContactFields (newContact, true);
         submitNewContact();
-        NavigationHelper.gotoHomePage();
+        NavigationHelper.homePage();
     }
 
     public int getContactsCount() {
@@ -73,7 +73,7 @@ public class ContactHelper extends BaseHelper {
 
     }
     // метод создания списка обьектов, имеющих имя и фамилию, из имеющихся контактов
-    public List<NewContactData> getContactList() {
+    public List<NewContactData> list() {
         List<NewContactData> contacts = new ArrayList<>();
         //List<WebElement> elements = wd.findElements(By.xpath("(//table[@id='maintable']/tbody/tr)"));
         List<WebElement> elements = wd.findElements(By.name("entry"));
@@ -93,11 +93,23 @@ public class ContactHelper extends BaseHelper {
         return contacts;
     }
 
-    public void contactToModify(int index, NewContactData contact) {
+    public void modify(int index, NewContactData contact) {
         NavigationHelper.gotoContactEdit(index);
         fillContactFields(contact, false);
         clickUpdateContact();
-        NavigationHelper.gotoHomePage();
+        NavigationHelper.homePage();
+    }
+
+    public void delete(int index) {
+        deleteContact(index);
+        NavigationHelper.homePage();
+    }
+
+    public void create(NewContactData contact) {
+        NavigationHelper.gotoAddNewContact();
+        fillContactFields(contact, true);
+        submitNewContact();
+        NavigationHelper.homePage();
     }
 }
 

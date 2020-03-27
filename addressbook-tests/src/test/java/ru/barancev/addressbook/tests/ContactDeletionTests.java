@@ -12,8 +12,8 @@ public class ContactDeletionTests extends TestBase {
 
     @BeforeMethod
     public void ensurePreconditions(){
-        if (! app.getContactHelper().isContactPresent()) {
-            app.getContactHelper().createContact(new NewContactData("Peter", "I",
+        if (app.contact().list().size() == 0) {
+            app.contact().create(new NewContactData("Peter", "I",
                     "Pen", "PeterP", "Mr", "Good Company",
                     "5858 GoodGuy Street, London, England",
                     "455-566-5951", "test1"), true);
@@ -23,35 +23,27 @@ public class ContactDeletionTests extends TestBase {
     @Test
     public void testDeleteContact() throws InterruptedException {
         //NavigationHelper.gotoHomePage();
-        app.goTo().gotoHomePage();
+        app.goTo().homePage();
 
-        //Перенесли в @BeforeMethod
-//        if (! app.getContactHelper().isContactPresent()) {
-//            app.getContactHelper().createContact(new NewContactData("Peter", "I",
-//                    "Pen", "PeterP", "Mr", "Good Company",
-//                    "5858 GoodGuy Street, London, England",
-//                    "455-566-5951", "test1"), true);
-//        }
 
-        List<NewContactData> before = app.getContactHelper().getContactList();
+        List<NewContactData> before = app.contact().list();
 
-        //int before = app.getContactHelper().getContactsCount();
-        app.getContactHelper().deleteContact(before.size() - 1);
-        NavigationHelper.gotoHomePage();
+        int index = before.size() - 1;
+        app.contact().delete(index);
         Thread.sleep(4000);
+        List<NewContactData> after = app.contact().list();
 
-        List<NewContactData> after = app.getContactHelper().getContactList();
-
-        //int after = app.getContactHelper().getContactsCount();
 
         //Сравнение количества контактов до и после создания
         Assert.assertEquals(after.size(), before.size() - 1);
 
-        before.remove(before.size()-1);
+        before.remove(index);
         // Работает и без цикла
 //        for (int i = 0; i<after.size(); i++){
 //            Assert.assertEquals(before.get(i), after.get(i));
 //        }
         Assert.assertEquals(before, after);
     }
+
+
 }

@@ -12,36 +12,28 @@ public class ContactCreationTests extends TestBase {
 
   @Test
   public void testContactCreation() throws Exception {
-    app.goTo().gotoHomePage();
+    app.goTo().homePage();
 
     //Формирование списка контактов до создания нового контакта
-    List<NewContactData> before = app.getContactHelper().getContactList();
+    List<NewContactData> before = app.contact().list();
 
     //int before = app.getContactHelper().getContactsCount();
 
-    app.goTo().gotoAddNewContact();
     NewContactData contact = new NewContactData("Peter", "I",
             "Pen", "PeterP", "Mr", "Good Company",
             "5858 GoodGuy Street, London, England",
             "455-566-5951", "test1");
-    app.getContactHelper().fillContactFields(contact, true);
-    app.getContactHelper().submitNewContact();
-    app.goTo().gotoHomePage();
-
+    app.contact().create(contact);
     //Формирование списка контактов после создания нового контакта
-    List<NewContactData> after = app.getContactHelper().getContactList();
-
+    List<NewContactData> after = app.contact().list();
 
     //int after = app.getContactHelper().getContactsCount();
-
     //Сравнение количества контактов до и после создания
     //Assert.assertEquals(after, before + 1);
 
     Assert.assertEquals(after.size(), before.size() + 1);
 
-
     //app.getContactHelper().deleteContact();
-
     // Обычный цикл для нахождения наибольшего значения id
 //    int max = 0;
 //    for (NewContactData x : after){
@@ -79,9 +71,5 @@ public class ContactCreationTests extends TestBase {
 
     //Сравнение через множества (сеты)
     //Assert.assertEquals(new HashSet<Object>(after), new HashSet<Object>(before));
-
-
   }
-
-
 }

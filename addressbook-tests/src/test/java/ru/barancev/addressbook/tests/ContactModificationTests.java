@@ -11,8 +11,8 @@ public class ContactModificationTests extends TestBase {
 
     @BeforeMethod
     public void ensurePreconditions(){
-        if (! app.getContactHelper().isContactPresent()) {
-            app.getContactHelper().createContact(new NewContactData("Peter", "I",
+        if (app.contact().list().size() == 0) {
+            app.contact().create(new NewContactData("Peter", "I",
                     "Pen", "PeterP", "Mr", "Good Company",
                     "5858 GoodGuy Street, London, England",
                     "455-566-5951", "test1"), true);
@@ -23,8 +23,8 @@ public class ContactModificationTests extends TestBase {
     @Test
     public void testContactModification(){
 
-        app.goTo().gotoHomePage();
-        List<NewContactData> before = app.getContactHelper().getContactList();
+        app.goTo().homePage();
+        List<NewContactData> before = app.contact().list();
         int index = before.size()-1;
         NewContactData contact = new NewContactData(before.get(index).getId(),"Peter3333", "I2",
                 "Pen222", "PeterP2", "Mr", "Good Company",
@@ -34,8 +34,8 @@ public class ContactModificationTests extends TestBase {
         //int before = app.getContactHelper().getContactsCount();
         //app.getNavigationHelper().gotoContactSelect(before - 1);
 
-        app.getContactHelper().contactToModify(index, contact);
-        List<NewContactData> after = app.getContactHelper().getContactList();
+        app.contact().modify(index, contact);
+        List<NewContactData> after = app.contact().list();
 
         //int after = app.getContactHelper().getContactsCount();
 
