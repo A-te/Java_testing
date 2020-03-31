@@ -6,6 +6,7 @@ import ru.barancev.addressbook.model.ContactData;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 
 public class ContactCreationTests extends TestBase {
 
@@ -15,7 +16,7 @@ public class ContactCreationTests extends TestBase {
     app.goTo().homePage();
 
     //Формирование списка контактов до создания нового контакта
-    List<ContactData> before = app.contact().list();
+    Set<ContactData> before = app.contact().all();
 
     //int before = app.getContactHelper().getContactsCount();
 
@@ -25,7 +26,7 @@ public class ContactCreationTests extends TestBase {
             .withGroup("test1");
     app.contact().create(contact);
     //Формирование списка контактов после создания нового контакта
-    List<ContactData> after = app.contact().list();
+    Set<ContactData> after = app.contact().all();
 
     //int after = app.getContactHelper().getContactsCount();
     //Сравнение количества контактов до и после создания
@@ -58,15 +59,20 @@ public class ContactCreationTests extends TestBase {
 
 
     // Возможности Java 9 для нахождения наибольшего значения id
-    int max = after.stream().max((o1, o2) -> Integer.compare(o1.getId(), o2.getId())).get().getId();
+//   int max = after.stream().max((o1, o2) -> Integer.compare(o1.getId(), o2.getId())).get().getId();
 
+    //Лекция 5.5. Повсеместное использование уникальных идентификаторов объектов
+    //Используем другой способ для нахождения максимального Id:
+    int max = after.stream().mapToInt((c) -> c.getId()).max().getAsInt();
     contact.withId(max);
     before.add(contact);
 
-    //Сравнение через упорядоченные списки
-    Comparator<? super ContactData> byId = (c1, c2) -> Integer.compare(c1.getId(), c2.getId());
-    before.sort(byId);
-    after.sort(byId);
+//Лекция 5.5. Повсеместное использование уникальных идентификаторов объектов.Сортировать множество не надо
+//    //Сравнение через упорядоченные списки
+//    Comparator<? super ContactData> byId = (c1, c2) -> Integer.compare(c1.getId(), c2.getId());
+//    before.sort(byId);
+//    after.sort(byId);
+    
     Assert.assertEquals(after, before);
 
     //Сравнение через множества (сеты)

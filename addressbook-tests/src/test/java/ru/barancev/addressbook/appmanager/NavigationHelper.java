@@ -2,6 +2,7 @@ package ru.barancev.addressbook.appmanager;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import ru.barancev.addressbook.model.ContactData;
 
 public class NavigationHelper extends BaseHelper {
 
@@ -40,6 +41,14 @@ public class NavigationHelper extends BaseHelper {
 
         //click(By.xpath("(//img[@alt='Edit'])"));
     }
+
+
+    public static void gotoContactEditById(int id) {
+        wd.findElement(By.cssSelector("a[href ='"+ "edit.php?id="+id+"']")).click();
+
+        //click(By.xpath("(//img[@alt='Edit'])"));
+    }
+
 
     public void gotoContactSelect(int index) {
         //Поиск элемента по индексу списка

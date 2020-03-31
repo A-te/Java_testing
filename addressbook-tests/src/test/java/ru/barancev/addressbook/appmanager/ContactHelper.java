@@ -7,8 +7,9 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.barancev.addressbook.model.ContactData;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-
+import java.util.Set;
 
 
 public class ContactHelper extends BaseHelper {
@@ -93,10 +94,43 @@ public class ContactHelper extends BaseHelper {
         return contacts;
     }
 
-    public void modify(int index, ContactData contact) {
-        NavigationHelper.gotoContactEdit(index);
+    // метод создания множества обьектов, имеющих имя и фамилию и уникальный id, из имеющихся контактов
+    public Set<ContactData> all() {
+        Set<ContactData> contacts = new HashSet<>();
+        List<WebElement> elements = wd.findElements(By.name("entry"));
+        for (WebElement element : elements){
+            List<WebElement> cells = element.findElements(By.tagName("td"));
+            String firstname = cells.get(2).getText();
+            String lastname = cells.get(1).getText();
+            int id = Integer.parseInt(element.findElement(By.tagName("input"))
+                    .getAttribute("value"));
+            contacts.add(new ContactData().withId(id).withFirstname(firstname)
+                    .withLastname(lastname));
+        }
+        return contacts;
+    }
+
+
+//    public void modify(int index, ContactData contact) {
+//        NavigationHelper.gotoContactEdit(index);
+//        fillContactFields(contact, false);
+//        clickUpdateContact();
+//        NavigationHelper.homePage();
+//    }
+
+    public void modify(ContactData contact) {
+        NavigationHelper.gotoContactEditById(contact.getId());
         fillContactFields(contact, false);
         clickUpdateContact();
+        NavigationHelper.homePage();
+    }
+
+
+
+    public void create(ContactData contact) {
+        NavigationHelper.gotoAddNewContact();
+        fillContactFields(contact, true);
+        submitNewContact();
         NavigationHelper.homePage();
     }
 
@@ -105,11 +139,19 @@ public class ContactHelper extends BaseHelper {
         NavigationHelper.homePage();
     }
 
-    public void create(ContactData contact) {
-        NavigationHelper.gotoAddNewContact();
-        fillContactFields(contact, true);
-        submitNewContact();
+    //Лекция 5.5. Повсеместное использование уникальных идентификаторов объектов
+    public void delete(ContactData contact) {
+        deleteContactById(contact.getId());
         NavigationHelper.homePage();
+    }
+
+    //Лекция 5.5. Повсеместное использование уникальных идентификаторов объектов
+    public void deleteContactById(int id) {
+        wd.findElement(By.cssSelector("input[id= '"+id+"']")).click();
+
+
+        click(By.xpath("//input[@value='Delete']"));
+        wd.switchTo().alert().accept();
     }
 }
 
