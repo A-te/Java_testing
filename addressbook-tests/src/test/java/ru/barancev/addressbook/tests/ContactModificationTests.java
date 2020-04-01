@@ -1,12 +1,20 @@
 package ru.barancev.addressbook.tests;
 
+import org.hamcrest.CoreMatchers;
+import org.hamcrest.MatcherAssert;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.barancev.addressbook.model.ContactData;
+import ru.barancev.addressbook.model.Contacts;
+
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.testng.Assert.assertEquals;
 
 public class ContactModificationTests extends TestBase {
 
@@ -25,7 +33,7 @@ public class ContactModificationTests extends TestBase {
     public void testContactModification(){
 
         app.goTo().homePage();
-        Set<ContactData> before = app.contact().all();
+        Contacts before = app.contact().all();
         ContactData modifiedContact = before.iterator().next();
         //int index = before.size()-1;
         ContactData contact = new ContactData().withId(modifiedContact.getId())
@@ -37,15 +45,16 @@ public class ContactModificationTests extends TestBase {
         //app.getNavigationHelper().gotoContactSelect(before - 1);
 
         app.contact().modify(contact);
-        Set<ContactData> after = app.contact().all();
+        Contacts after = app.contact().all();
 
         //int after = app.getContactHelper().getContactsCount();
 
         //Сравнение количества контактов до и после модификации
-        Assert.assertEquals(after.size(), before.size());
+        assertEquals(after.size(), before.size());
 
-        before.remove(modifiedContact);
-        before.add(contact);
+        //Лекция 5.6. Hamcrest: улучшение внешнего вида проверок
+        //before.remove(modifiedContact);
+        //before.add(contact);
 
 //Лекция 5.5. Повсеместное использование уникальных идентификаторов объектов
 //        // Сравнение сортированных списков
@@ -53,10 +62,14 @@ public class ContactModificationTests extends TestBase {
 //        before.sort(byId);
 //        after.sort(byId);
 
-        Assert.assertEquals(before, after);
+        //Лекция 5.6. Hamcrest: улучшение внешнего вида проверок
+        //Assert.assertEquals(before, after);
 
         //Сравнение множеств(сетов)
         //Assert.assertEquals(new HashSet<Object>(before), new HashSet<Object>(after));
+
+        assertThat(after, equalTo(before.without(modifiedContact)
+                .withAdded(contact)));
     }
 
 

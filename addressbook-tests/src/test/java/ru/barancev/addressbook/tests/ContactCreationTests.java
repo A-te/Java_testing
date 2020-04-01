@@ -1,12 +1,11 @@
 package ru.barancev.addressbook.tests;
 
-import org.testng.Assert;
 import org.testng.annotations.Test;
 import ru.barancev.addressbook.model.ContactData;
+import ru.barancev.addressbook.model.Contacts;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Set;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ContactCreationTests extends TestBase {
 
@@ -16,7 +15,10 @@ public class ContactCreationTests extends TestBase {
     app.goTo().homePage();
 
     //Формирование списка контактов до создания нового контакта
-    Set<ContactData> before = app.contact().all();
+   // Set<ContactData> before = app.contact().all();
+
+    Contacts before = app.contact().all();
+
 
     //int before = app.getContactHelper().getContactsCount();
 
@@ -26,13 +28,20 @@ public class ContactCreationTests extends TestBase {
             .withGroup("test1");
     app.contact().create(contact);
     //Формирование списка контактов после создания нового контакта
-    Set<ContactData> after = app.contact().all();
+    //Set<ContactData> after = app.contact().all();
+
+    Contacts after = app.contact().all();
+
 
     //int after = app.getContactHelper().getContactsCount();
     //Сравнение количества контактов до и после создания
     //Assert.assertEquals(after, before + 1);
 
-    Assert.assertEquals(after.size(), before.size() + 1);
+//Лекция 5.6. Hamcrest: улучшение внешнего вида проверок
+//    Assert.assertEquals(after.size(), before.size() + 1);
+    assertThat(after.size(), equalTo(before.size()+1));
+
+
 
     //app.getContactHelper().deleteContact();
     // Обычный цикл для нахождения наибольшего значения id
@@ -65,15 +74,19 @@ public class ContactCreationTests extends TestBase {
     //Используем другой способ для нахождения максимального Id:
     int max = after.stream().mapToInt((c) -> c.getId()).max().getAsInt();
     contact.withId(max);
-    before.add(contact);
+
+    //Лекция 5.6. Hamcrest: улучшение внешнего вида проверок
+    //before.add(contact);
 
 //Лекция 5.5. Повсеместное использование уникальных идентификаторов объектов.Сортировать множество не надо
 //    //Сравнение через упорядоченные списки
 //    Comparator<? super ContactData> byId = (c1, c2) -> Integer.compare(c1.getId(), c2.getId());
 //    before.sort(byId);
 //    after.sort(byId);
-    
-    Assert.assertEquals(after, before);
+
+//Лекция 5.6. Hamcrest: улучшение внешнего вида проверок
+//    Assert.assertEquals(after, before);
+    assertThat(after, equalTo(before.withAdded(contact)));
 
     //Сравнение через множества (сеты)
     //Assert.assertEquals(new HashSet<Object>(after), new HashSet<Object>(before));

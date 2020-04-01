@@ -6,6 +6,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.barancev.addressbook.model.ContactData;
+import ru.barancev.addressbook.model.Contacts;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -95,8 +97,24 @@ public class ContactHelper extends BaseHelper {
     }
 
     // метод создания множества обьектов, имеющих имя и фамилию и уникальный id, из имеющихся контактов
-    public Set<ContactData> all() {
-        Set<ContactData> contacts = new HashSet<>();
+//    public Set<ContactData> all() {
+//        Set<ContactData> contacts = new HashSet<>();
+//        List<WebElement> elements = wd.findElements(By.name("entry"));
+//        for (WebElement element : elements){
+//            List<WebElement> cells = element.findElements(By.tagName("td"));
+//            String firstname = cells.get(2).getText();
+//            String lastname = cells.get(1).getText();
+//            int id = Integer.parseInt(element.findElement(By.tagName("input"))
+//                    .getAttribute("value"));
+//            contacts.add(new ContactData().withId(id).withFirstname(firstname)
+//                    .withLastname(lastname));
+//        }
+//        return contacts;
+//    }
+
+    //Лекция 5.6. Hamcrest: улучшение внешнего вида проверок
+    public Contacts all() {
+        Contacts contacts = new Contacts();
         List<WebElement> elements = wd.findElements(By.name("entry"));
         for (WebElement element : elements){
             List<WebElement> cells = element.findElements(By.tagName("td"));
