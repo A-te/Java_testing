@@ -95,7 +95,7 @@ public class ContactHelper extends BaseHelper {
         }
         return contacts;
     }
-
+    //Лекция 5.5. Повсеместное использование уникальных идентификаторов объектов
     // метод создания множества обьектов, имеющих имя и фамилию и уникальный id, из имеющихся контактов
 //    public Set<ContactData> all() {
 //        Set<ContactData> contacts = new HashSet<>();
