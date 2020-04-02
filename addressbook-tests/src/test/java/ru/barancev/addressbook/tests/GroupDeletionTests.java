@@ -40,8 +40,13 @@ public class GroupDeletionTests extends TestBase {
 
         //int after = app.getGroupHelper().getGroupCount();
 
+        //Хеширование(Предварительная проверка прри помощи более быстрой операции):
+        assertThat(app.group().count(), equalTo(before.size()-1));
+
         Groups after = app.group().allSet();
-        assertEquals(after.size(), before.size() - 1);
+
+        //Лекция 5.8. Хеширование и предварительные проверки(переносим проверку выше)
+        //assertEquals(after.size(), before.size() - 1);
 
       //  before.remove(index);
         //Лекция 5.6. Hamcrest: улучшение внешнего вида проверок

@@ -20,11 +20,16 @@ public class GroupCreationTests extends TestBase {
 
     GroupData group = new GroupData().withName("test1").withHeader("test2").withFooter("test3");
     app.group().create(group);
+    //Хеширование(Предварительная проверка прри помощи более быстрой операции):
+    assertThat(app.group().count(), equalTo(before.size()+1));
     Groups after = app.group().allSet();
+
     //int after = app.getGroupHelper().getGroupCount();
 
     //Assert.assertEquals(after.size(),before.size() + 1);
-    assertThat(after.size(), equalTo(before.size() + 1));
+
+//Лекция 5.8. Хеширование и предварительные проверки(переносим проверку выше)
+    //assertThat(after.size(), equalTo(before.size() + 1));
 
 
 //    int max = 0;
@@ -68,12 +73,27 @@ public class GroupCreationTests extends TestBase {
 //    before.sort(byId);
 //    after.sort(byId);
 
-   // Assert.assertEquals(before, after);
+    // Assert.assertEquals(before, after);
 
     assertThat(after, equalTo(before.withAdded(group.withId(after.stream().mapToInt((g) ->
             g.getId()).max().getAsInt()))));
 
 
+  }
+
+  @Test
+  public void testBadGroupCreation() throws Exception {
+
+    app.goTo().groupPage();
+    Groups before = app.group().allSet();
+    GroupData group = new GroupData().withName("test1'");
+    app.group().create(group);
+    //Хеширование(Предварительная проверка прри помощи более быстрой операции):
+    assertThat(app.group().count(), equalTo(before.size()));
+    Groups after = app.group().allSet();
+//Лекция 5.8. Хеширование и предварительные проверки
+    //assertThat(after.size(), equalTo(before.size()));
+    assertThat(after, equalTo(before));
   }
 
 }

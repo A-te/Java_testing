@@ -40,13 +40,17 @@ public class GroupModificationTests extends TestBase {
         GroupData group = new GroupData().withId(groupToModify.getId()).withName("test11")
                 .withHeader("test22").withFooter("test33");
         app.group().modify(group);
+        //Хеширование(Предварительная проверка при помощи более быстрой операции):
+        assertThat(app.group().count(), equalTo(before.size()));
 
         //int after = app.getGroupHelper().getGroupCount();
 
         //Лекция 5.6. Hamcrest: улучшение внешнего вида проверок
         //Set<GroupData> after = app.group().allSet();
+
         Groups after = app.group().allSet();
-        assertEquals(after.size(),before.size());
+//Лекция 5.8. Хеширование и предварительные проверки (Переносим проверку выше, перед выполнением длительной операции)
+        //assertEquals(after.size(),before.size());
 
 //Лекция 5.6. Hamcrest: улучшение внешнего вида проверок
 //        before.remove(groupToModify);
