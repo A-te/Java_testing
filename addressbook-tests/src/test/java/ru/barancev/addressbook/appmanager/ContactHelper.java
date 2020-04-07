@@ -120,10 +120,18 @@ public class ContactHelper extends BaseHelper {
             List<WebElement> cells = element.findElements(By.tagName("td"));
             String firstname = cells.get(2).getText();
             String lastname = cells.get(1).getText();
+            String allPhones = cells.get(5).getText();
+            //Лекция 5.11. Клеим строки: метод обратных проверок
+            //String[] phones = allPhones.split("\n");
             int id = Integer.parseInt(element.findElement(By.tagName("input"))
                     .getAttribute("value"));
+      //Лекция 5.11. Клеим строки: метод обратных проверок
+//            contacts.add(new ContactData().withId(id).withFirstname(firstname)
+//                    .withLastname(lastname).withHomePhone(phones[0]).withMobilePhone(phones[1])
+//                    .withWorkPhone(phones[2]));
+
             contacts.add(new ContactData().withId(id).withFirstname(firstname)
-                    .withLastname(lastname));
+                    .withLastname(lastname).withAllPhones(allPhones));
         }
         return contacts;
     }
@@ -170,6 +178,32 @@ public class ContactHelper extends BaseHelper {
 
         click(By.xpath("//input[@value='Delete']"));
         wd.switchTo().alert().accept();
+    }
+
+    public ContactData infoFromEditForm(ContactData contact) {
+        initContactModificationById(contact.getId());
+        String firstname = wd.findElement(By.name("firstname")).getAttribute("value");
+        String lastname = wd.findElement(By.name("lastname")).getAttribute("value");
+        String home = wd.findElement(By.name("home")).getAttribute("value");
+        String mobile = wd.findElement(By.name("mobile")).getAttribute("value");
+        String work = wd.findElement(By.name("work")).getAttribute("value");
+        wd.navigate().back();
+        return new ContactData().withId(contact.getId()).withFirstname(firstname)
+                .withLastname(lastname).withHomePhone(home).withMobilePhone(mobile).withWorkPhone(work);
+    }
+
+    private void initContactModificationById(int id) {
+        //Метод последовательных приближений:
+        WebElement checkbox = wd.findElement(By.cssSelector(String.format("input[value='%s']", id)));
+        WebElement row = checkbox.findElement(By.xpath("./../.."));
+        List<WebElement> cells = row.findElements(By.tagName("td"));
+        cells.get(7).findElement(By.tagName("a")).click();
+
+        //Варианты локаторов:
+//        wd.findElement(By.xpath(String.format("//input[@value='%s']/../..td[8]/a", id))).click();
+//        wd.findElement(By.xpath(String.format("//tr.[//input[@value='%s']]td[8]/a", id))).click();
+//        wd.findElement(By.cssSelector(String.format("a[href='edit.php?id=%s']", id))).click();
+
     }
 }
 
