@@ -33,7 +33,7 @@ public class ContactEmailTests extends TestBase {
         return result;
     }
 
-    public static String cleaned(String phone){
-        return phone.replaceAll("\\s","");
+    public static String cleaned(String email){
+        return email.replaceAll("\\s","");
     }
 }
