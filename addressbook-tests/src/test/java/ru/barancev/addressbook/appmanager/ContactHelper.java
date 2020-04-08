@@ -121,6 +121,8 @@ public class ContactHelper extends BaseHelper {
             String firstname = cells.get(2).getText();
             String lastname = cells.get(1).getText();
             String allPhones = cells.get(5).getText();
+            String address = cells.get(3).getText();
+            String allEmails = cells.get(4).getText();
             //Лекция 5.11. Клеим строки: метод обратных проверок
             //String[] phones = allPhones.split("\n");
             int id = Integer.parseInt(element.findElement(By.tagName("input"))
@@ -131,7 +133,8 @@ public class ContactHelper extends BaseHelper {
 //                    .withWorkPhone(phones[2]));
 
             contacts.add(new ContactData().withId(id).withFirstname(firstname)
-                    .withLastname(lastname).withAllPhones(allPhones));
+                    .withLastname(lastname).withAllPhones(allPhones).withAddress(address)
+                    .withAllEmails(allEmails));
         }
         return contacts;
     }
@@ -187,9 +190,16 @@ public class ContactHelper extends BaseHelper {
         String home = wd.findElement(By.name("home")).getAttribute("value");
         String mobile = wd.findElement(By.name("mobile")).getAttribute("value");
         String work = wd.findElement(By.name("work")).getAttribute("value");
+        String address = wd.findElement(By.xpath("//textarea[@name='address']")).getText();
+        String email = wd.findElement(By.xpath("//input[@name='email']")).getAttribute("value");
+        String email2 = wd.findElement(By.xpath("//input[@name='email2']")).getAttribute("value");
+        String email3 = wd.findElement(By.xpath("//input[@name='email3']")).getAttribute("value");
+
         wd.navigate().back();
         return new ContactData().withId(contact.getId()).withFirstname(firstname)
-                .withLastname(lastname).withHomePhone(home).withMobilePhone(mobile).withWorkPhone(work);
+                .withLastname(lastname).withHomePhone(home).withMobilePhone(mobile)
+                .withWorkPhone(work).withAddress(address).withEmail(email).withEmail2(email2)
+                .withEmail3(email3);
     }
 
     private void initContactModificationById(int id) {
