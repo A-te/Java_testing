@@ -4,6 +4,8 @@ import org.testng.annotations.Test;
 import ru.barancev.addressbook.model.ContactData;
 import ru.barancev.addressbook.model.Contacts;
 
+import java.io.File;
+
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -15,21 +17,22 @@ public class ContactCreationTests extends TestBase {
     app.goTo().homePage();
 
     //Формирование списка контактов до создания нового контакта
-   // Set<ContactData> before = app.contact().all();
 
+   // Set<ContactData> before = app.contact().all();
     Contacts before = app.contact().all();
 
 
     //int before = app.getContactHelper().getContactsCount();
 
+    File photo = new File("src/test/resources/logo.png");
     ContactData contact = new ContactData().withFirstname("Peter").withMiddlename("I")
             .withLastname("Pen").withNickname("PeterP").withTitle("Mr").withCompany("Good Company")
             .withAddress("5858 GoodGuy Street, London, England").withHomePhone("455-566-5951")
-            .withGroup("test1");
+            .withGroup("test1").withPhoto(photo);
     app.contact().create(contact);
+
     //Формирование списка контактов после создания нового контакта
     //Set<ContactData> after = app.contact().all();
-
     Contacts after = app.contact().all();
 
 
@@ -91,4 +94,16 @@ public class ContactCreationTests extends TestBase {
     //Сравнение через множества (сеты)
     //Assert.assertEquals(new HashSet<Object>(after), new HashSet<Object>(before));
   }
+
+  //Тест для определения директорий
+//  @Test
+//  public void testCurrentDir() {
+//    File currentDir = new File(".");
+//    System.out.println(currentDir.getAbsolutePath());
+//    File photo = new File("src/test/resources/logo.png");
+//    System.out.println(photo.getAbsolutePath());
+//    System.out.println(photo.exists());
+//
+//  }
+
 }

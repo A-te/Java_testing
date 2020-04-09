@@ -1,5 +1,7 @@
 package ru.barancev.addressbook.model;
 
+import java.io.File;
+
 public class ContactData {
 
 
@@ -20,6 +22,7 @@ public class ContactData {
     private String email;
     private String email2;
     private String email3;
+    private File photo;
 
 
 
@@ -107,6 +110,11 @@ public class ContactData {
 
     public ContactData withEmail2(String email2) {
         this.email2 = email2;
+        return this;
+    }
+
+    public ContactData withPhoto(File photo) {
+        this.photo = photo;
         return this;
     }
 
@@ -241,6 +249,11 @@ public class ContactData {
 
     public String getEmail3() {
         return email3;
+    }
+
+
+    public File getPhoto() {
+        return photo;
     }
 
 
