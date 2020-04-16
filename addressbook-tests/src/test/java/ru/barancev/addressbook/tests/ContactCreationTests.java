@@ -1,34 +1,61 @@
 package ru.barancev.addressbook.tests;
 
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import ru.barancev.addressbook.model.ContactData;
 import ru.barancev.addressbook.model.Contacts;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ContactCreationTests extends TestBase {
 
+  @DataProvider
+  public Iterator<Object[]> validContacts(){
+    List<Object[]> list = new ArrayList<Object[]>();
+    list.add(new Object[] {"firstname1", "lastname1", "nickname1"});
+    list.add(new Object[] {"firstname2", "lastname2", "nickname2"});
+    list.add(new Object[] {"firstname3", "lastname3", "nickname3"});
+    return list.iterator();
+  }
 
-  @Test
-  public void testContactCreation() throws Exception {
+
+  @Test(dataProvider = "validContacts")
+  public void testContactCreation(String firstname, String lastname, String nickname) throws Exception {
+    //app.goTo().homePage();
+    //ContactData contact = new ContactData().withFirstname(firstname)
+    //        .withLastname(lastname).withNickname(nickname);
+    File photo = new File("src/test/resources/logo.png");
+    ContactData contact = new ContactData().withFirstname(firstname).withMiddlename("I")
+            .withLastname(lastname).withNickname(nickname).withTitle("Mr").withCompany("Good Company")
+            .withAddress("5858 GoodGuy Street, London, England").withHomePhone("455-566-5951")
+            .withGroup("test1").withPhoto(photo);
+
     app.goTo().homePage();
 
     //Формирование списка контактов до создания нового контакта
-
    // Set<ContactData> before = app.contact().all();
-    Contacts before = app.contact().all();
 
+    Contacts before = app.contact().all();
 
     //int before = app.getContactHelper().getContactsCount();
 
-    File photo = new File("src/test/resources/logo.png");
-    ContactData contact = new ContactData().withFirstname("Peter").withMiddlename("I")
-            .withLastname("Pen").withNickname("PeterP").withTitle("Mr").withCompany("Good Company")
-            .withAddress("5858 GoodGuy Street, London, England").withHomePhone("455-566-5951")
-            .withGroup("test1").withPhoto(photo);
+    //Лекция 6.4. Параметризация тестовых методов
+    //File photo = new File("src/test/resources/logo.png");
+//    ContactData contact = new ContactData().withFirstname("Peter").withMiddlename("I")
+//            .withLastname("Pen").withNickname("PeterP").withTitle("Mr").withCompany("Good Company")
+//            .withAddress("5858 GoodGuy Street, London, England").withHomePhone("455-566-5951")
+//            .withGroup("test1").withPhoto(photo);
+
+//    ContactData contact = new ContactData().withFirstname(firstname)
+//            .withLastname(lastname).withNickname(nickname);
+
+
     app.contact().create(contact);
 
     //Формирование списка контактов после создания нового контакта
