@@ -18,23 +18,40 @@ public class ContactCreationTests extends TestBase {
   @DataProvider
   public Iterator<Object[]> validContacts(){
     List<Object[]> list = new ArrayList<Object[]>();
-    list.add(new Object[] {"firstname1", "lastname1", "nickname1"});
-    list.add(new Object[] {"firstname2", "lastname2", "nickname2"});
-    list.add(new Object[] {"firstname3", "lastname3", "nickname3"});
+    File photo = new File("src/test/resources/logo.png");
+    list.add(new Object[] {new ContactData().withFirstname("firstname11").withMiddlename("I")
+            .withLastname("lastname11").withNickname("nickname11").withTitle("Mr").withCompany("Good Company")
+            .withAddress("5858 GoodGuy Street, London, England").withHomePhone("455-566-5951")
+            .withGroup("test1").withPhoto(photo)});
+    list.add(new Object[] {new ContactData().withFirstname("firstname22").withMiddlename("I")
+            .withLastname("lastname22").withNickname("nickname22").withTitle("Mr").withCompany("Good Company")
+            .withAddress("5858 GoodGuy Street, London, England").withHomePhone("455-566-5951")
+            .withGroup("test1").withPhoto(photo)});
+    list.add(new Object[] {new ContactData().withFirstname("firstname33").withMiddlename("I")
+            .withLastname("lastname33").withNickname("nickname33").withTitle("Mr").withCompany("Good Company")
+            .withAddress("5858 GoodGuy Street, London, England").withHomePhone("455-566-5951")
+            .withGroup("test1").withPhoto(photo)});
+//    list.add(new Object[] {"firstname2", "lastname2", "nickname2"});
+//    list.add(new Object[] {"firstname3", "lastname3", "nickname3"});
     return list.iterator();
   }
 
 
   @Test(dataProvider = "validContacts")
-  public void testContactCreation(String firstname, String lastname, String nickname) throws Exception {
+//public void testContactCreation(String firstname,String lastname,String nickname) throws Exception {
+
+  public void testContactCreation(ContactData contact) throws Exception {
+
     //app.goTo().homePage();
     //ContactData contact = new ContactData().withFirstname(firstname)
     //        .withLastname(lastname).withNickname(nickname);
-    File photo = new File("src/test/resources/logo.png");
-    ContactData contact = new ContactData().withFirstname(firstname).withMiddlename("I")
-            .withLastname(lastname).withNickname(nickname).withTitle("Mr").withCompany("Good Company")
-            .withAddress("5858 GoodGuy Street, London, England").withHomePhone("455-566-5951")
-            .withGroup("test1").withPhoto(photo);
+
+    //Лекция 6.4. Параметризация тестовых методов, part 2:
+//    File photo = new File("src/test/resources/logo.png");
+//    ContactData contact = new ContactData().withFirstname(firstname).withMiddlename("I")
+//            .withLastname(lastname).withNickname(nickname).withTitle("Mr").withCompany("Good Company")
+//            .withAddress("5858 GoodGuy Street, London, England").withHomePhone("455-566-5951")
+//            .withGroup("test1").withPhoto(photo);
 
     app.goTo().homePage();
 
