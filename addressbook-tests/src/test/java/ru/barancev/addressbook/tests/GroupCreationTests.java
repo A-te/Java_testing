@@ -1,7 +1,10 @@
 package ru.barancev.addressbook.tests;
 
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.thoughtworks.xstream.XStream;
+import org.openqa.selenium.json.Json;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import ru.barancev.addressbook.model.GroupData;
@@ -22,24 +25,12 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class GroupCreationTests extends TestBase {
 
-  //Работа с CSV
-//  @DataProvider
-//  public Iterator<Object[]> validGroups() throws IOException {
-//    List<Object[]> list = new ArrayList<Object[]>();
-//    BufferedReader reader = new BufferedReader(new FileReader(new File
-//            ("src/test/resources/groups.csv")));
-//    String line = reader.readLine();
-//    while (line != null){
-//      String[] split = line.split(";");
-//      list.add(new Object[] {new GroupData().withName(split[0]).withHeader(split[1]).withFooter(split[2])});
-//      line = reader.readLine();
-//    }
-//    return list.iterator();
 
 
-  // Работа с XML
+
+  // Загрузка данных из файла формата XML
   @DataProvider
-  public Iterator<Object[]> validGroups() throws IOException {
+  public Iterator<Object[]> validGroupsFromXml() throws IOException {
     BufferedReader reader = new BufferedReader(new FileReader(new File
             ("src/test/resources/groups.xml")));
     String xml = "";
@@ -55,22 +46,55 @@ public class GroupCreationTests extends TestBase {
 
   }
 
+  @DataProvider
+  public Iterator<Object[]> validGroupsFromJson() throws IOException {
+    BufferedReader reader = new BufferedReader(new FileReader(new File
+            ("src/test/resources/groups.json")));
+    String json = "";
+    String line = reader.readLine();
+    while (line != null) {
+      json += line;
+      line = reader.readLine();
+    }
+    Gson gson = new Gson();
+    List<GroupData> groups = gson.fromJson(json,new TypeToken<List<GroupData>>(){}.getType());
+    return groups.stream().map((g) -> new Object[]{g}).collect(Collectors.toList()).iterator();
 
-  //Лекция 6.5. Загрузка тестовых данных из файла
-//  public Iterator<Object[]> validGroups(){
+  }
+
+
+
+//  //Лекция 6.5. Загрузка тестовых данных из List
+//  @DataProvider
+//  public Iterator<Object[]> validGroupsFromList(){
 //    List<Object[]> list = new ArrayList<>();
 //    list.add(new Object[] {new GroupData().withName("test1").withHeader("header1").withFooter("footer1")});
 //    list.add(new Object[] {new GroupData().withName("test2").withHeader("header2").withFooter("footer2")});
 //    list.add(new Object[] {new GroupData().withName("test3").withHeader("header3").withFooter("footer3")});
-
+//
 //    list.add(new Object[] {"test1", "header1","footer1"});
 //    list.add(new Object[] {"test2", "header2","footer2"});
 //    list.add(new Object[] {"test3", "header3","footer3"});
-
+//
 //    return list.iterator();
 //  }
+//
+//  //Лекция 6.5. Загрузка тестовых данных из файла CSV
+//  @DataProvider
+//  public Iterator<Object[]> validGroupsFromCsv() throws IOException {
+//    List<Object[]> list = new ArrayList<Object[]>();
+//    BufferedReader reader = new BufferedReader(new FileReader(new File
+//            ("src/test/resources/groups.csv")));
+//    String line = reader.readLine();
+//    while (line != null){
+//      String[] split = line.split(";");
+//      list.add(new Object[] {new GroupData().withName(split[0]).withHeader(split[1]).withFooter(split[2])});
+//      line = reader.readLine();
+//    }
+//    return list.iterator();
 
-  @Test(dataProvider = "validGroups")
+
+  @Test(dataProvider = "validGroupsFromJson")
 
   public void testGroupCreation(GroupData group) throws Exception {
 
