@@ -1,46 +1,75 @@
 package ru.barancev.addressbook.tests;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import ru.barancev.addressbook.model.ContactData;
 import ru.barancev.addressbook.model.Contacts;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ContactCreationTests extends TestBase {
+  
 
   @DataProvider
-  public Iterator<Object[]> validContacts(){
+  public Iterator<Object[]> validContactsFromJson() throws IOException {
     List<Object[]> list = new ArrayList<Object[]>();
-    File photo = new File("src/test/resources/logo.png");
-    list.add(new Object[] {new ContactData().withFirstname("firstname11").withMiddlename("I")
-            .withLastname("lastname11").withNickname("nickname11").withTitle("Mr").withCompany("Good Company")
-            .withAddress("5858 GoodGuy Street, London, England").withHomePhone("455-566-5951")
-            .withGroup("test1").withPhoto(photo)});
-    list.add(new Object[] {new ContactData().withFirstname("firstname22").withMiddlename("I")
-            .withLastname("lastname22").withNickname("nickname22").withTitle("Mr").withCompany("Good Company")
-            .withAddress("5858 GoodGuy Street, London, England").withHomePhone("455-566-5951")
-            .withGroup("test1").withPhoto(photo)});
-    list.add(new Object[] {new ContactData().withFirstname("firstname33").withMiddlename("I")
-            .withLastname("lastname33").withNickname("nickname33").withTitle("Mr").withCompany("Good Company")
-            .withAddress("5858 GoodGuy Street, London, England").withHomePhone("455-566-5951")
-            .withGroup("test1").withPhoto(photo)});
-//    list.add(new Object[] {"firstname2", "lastname2", "nickname2"});
-//    list.add(new Object[] {"firstname3", "lastname3", "nickname3"});
-    return list.iterator();
+    BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/contacts.json")));
+    String json ="";
+    String line = reader.readLine();
+    while (line != null){
+      json += line;
+      line = reader.readLine();
+    }
+    Gson gson = new Gson();
+    List<ContactData> contacts = gson.fromJson(json, new TypeToken<List<ContactData>>(){}.getType());
+
+    return contacts.stream().map((c) -> new Object[] {c}).collect(Collectors.toList()).iterator();
   }
 
 
-  @Test(dataProvider = "validContacts")
+//  @DataProvider
+//  public Iterator<Object[]> validContacts(){
+//    List<Object[]> list = new ArrayList<Object[]>();
+//    File photo = new File("src/test/resources/logo.png");
+//    list.add(new Object[] {new ContactData().withFirstname("firstname11").withMiddlename("I")
+//            .withLastname("lastname11").withNickname("nickname11").withTitle("Mr").withCompany("Good Company")
+//            .withAddress("5858 GoodGuy Street, London, England").withHomePhone("455-566-5951")
+//            .withGroup("test1").withPhoto(photo)});
+//    list.add(new Object[] {new ContactData().withFirstname("firstname22").withMiddlename("I")
+//            .withLastname("lastname22").withNickname("nickname22").withTitle("Mr").withCompany("Good Company")
+//            .withAddress("5858 GoodGuy Street, London, England").withHomePhone("455-566-5951")
+//            .withGroup("test1").withPhoto(photo)});
+//    list.add(new Object[] {new ContactData().withFirstname("firstname33").withMiddlename("I")
+//            .withLastname("lastname33").withNickname("nickname33").withTitle("Mr").withCompany("Good Company")
+//            .withAddress("5858 GoodGuy Street, London, England").withHomePhone("455-566-5951")
+//            .withGroup("test1").withPhoto(photo)});
+////    list.add(new Object[] {"firstname2", "lastname2", "nickname2"});
+////    list.add(new Object[] {"firstname3", "lastname3", "nickname3"});
+//    return list.iterator();
+//  }
+
+
+  @Test(dataProvider = "validContactsFromJson")
 //public void testContactCreation(String firstname,String lastname,String nickname) throws Exception {
 
   public void testContactCreation(ContactData contact) throws Exception {
+    File photo = new File("src/test/resources/logo.png");
+    contact.withMiddlename("I").withTitle("Mr").withCompany("Good Company")
+            .withAddress("5858 GoodGuy Street, London, England").withHomePhone("455-566-5951")
+            .withGroup("test1").withPhoto(photo);
 
     //app.goTo().homePage();
     //ContactData contact = new ContactData().withFirstname(firstname)
