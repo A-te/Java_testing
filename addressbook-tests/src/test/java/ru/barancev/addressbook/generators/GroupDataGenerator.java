@@ -62,9 +62,14 @@ public class GroupDataGenerator {
     private void saveAsJson(List<GroupData> groups, File file) throws IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
         String json = gson.toJson(groups);
-        Writer writer = new FileWriter(file);
-        writer.write(json);
-        writer.close();
+        //Лекция 6.8. Автоматическое закрытие файлов после использования(try)
+        try(Writer writer = new FileWriter(file)){
+            writer.write(json);
+        }
+        //Старый способ(с ручным закрытием)
+//        Writer writer = new FileWriter(file);
+//        writer.write(json);
+//        writer.close();
     }
 
     private void saveAsXml(List<GroupData> groups, File file) throws IOException {
@@ -75,19 +80,26 @@ public class GroupDataGenerator {
         // Или по другому:
         xstream.processAnnotations(GroupData.class);
         String xml = xstream.toXML(groups);
-        Writer writer = new FileWriter(file);
-        writer.write(xml);
-        writer.close();
+        //Лекция 6.8. Автоматическое закрытие файлов после использования(try)
+        try(Writer writer = new FileWriter(file)){
+            writer.write(xml);
+        }
+        //Старый способ(с ручным закрытием)
+//        Writer writer = new FileWriter(file);
+//        writer.write(xml);
+//        writer.close();
     }
 
     private  void saveAsCsv(List<GroupData> groups, File file) throws IOException {
         System.out.println(new File(".").getAbsolutePath());
-        Writer writer = new FileWriter(file);
-        for (GroupData group : groups) {
-            writer.write(String.format("%s;%s;%s\n",group.getName(),
-                    group.getHeader(),group.getFooter()));
+        try(Writer writer = new FileWriter(file)){
+            for (GroupData group : groups) {
+                writer.write(String.format("%s;%s;%s\n",group.getName(),
+                        group.getHeader(),group.getFooter()));
+            }
+
         }
-        writer.close();
+
     }
 
     private  List<GroupData> generateGroups(int count) {
