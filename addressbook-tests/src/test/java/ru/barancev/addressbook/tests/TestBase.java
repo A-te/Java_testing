@@ -9,7 +9,12 @@ public class TestBase {
 
     //protected final ApplicationManager app = new ApplicationManager();
 
-    public static final ApplicationManager app = new ApplicationManager(BrowserType.FIREFOX);
+//Лекция 6.10. Описание конфигурации тестового стенда
+    //public static final ApplicationManager app = new ApplicationManager(BrowserType.FIREFOX);
+
+    public static final ApplicationManager app
+            = new ApplicationManager(System.getProperty("browser", BrowserType.FIREFOX));
+
     //protected final ApplicationManager app = new ApplicationManager(BrowserType.FIREFOX);
 
 
