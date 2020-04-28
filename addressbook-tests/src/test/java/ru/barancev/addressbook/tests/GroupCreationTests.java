@@ -4,10 +4,16 @@ package ru.barancev.addressbook.tests;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.thoughtworks.xstream.XStream;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import ru.barancev.addressbook.model.GroupData;
 import ru.barancev.addressbook.model.Groups;
+import ch.qos.logback.core.spi.ContextAware;
+import ch.qos.logback.core.spi.FilterAttachable;
+import ch.qos.logback.core.spi.LifeCycle;
+
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -22,8 +28,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 
 public class GroupCreationTests extends TestBase {
-
-
 
 
   // Загрузка данных из файла формата XML
@@ -62,6 +66,7 @@ public class GroupCreationTests extends TestBase {
 
   @DataProvider
   public Iterator<Object[]> validGroupsFromJson() throws IOException {
+
     try(BufferedReader reader = new BufferedReader(new FileReader(new File
             ("src/test/resources/groups.json")))){
       String json = "";
@@ -111,7 +116,6 @@ public class GroupCreationTests extends TestBase {
   @Test(dataProvider = "validGroupsFromJson")
 
   public void testGroupCreation(GroupData group) throws Exception {
-
 //public void testGroupCreation(String name, String header, String footer) throws Exception {
 
       //Лекция 6.4. Параметризация тестовых методов(Продвинутый метод, with DataProvider(TestNG):
