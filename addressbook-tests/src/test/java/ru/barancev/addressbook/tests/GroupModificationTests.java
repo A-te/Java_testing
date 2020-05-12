@@ -18,11 +18,17 @@ public class GroupModificationTests extends TestBase {
 
     @BeforeMethod
     public void ensurePrecondition(){
-        app.goTo().groupPage();
-
-        if (app.group().allSet().size() == 0) {
+        //Лекция 7.4. Сравнение данных, загруженных из БД
+        if (app.db().groups().size() == 0){
+            app.goTo().groupPage();
             app.group().create(new GroupData().withName("test1").withHeader("test2").withFooter("test3"));
         }
+
+        //Лекция 7.4. Сравнение данных, загруженных из БД
+        //app.goTo().groupPage();
+//        if (app.group().allSet().size() == 0) {
+//            app.group().create(new GroupData().withName("test1").withHeader("test2").withFooter("test3"));
+//        }
     }
 
     @Test
@@ -32,14 +38,21 @@ public class GroupModificationTests extends TestBase {
 
         //Лекция 5.6. Hamcrest: улучшение внешнего вида проверок
         //Set<GroupData> before = app.group().allSet();
-        Groups before = app.group().allSet();
+
+        //Лекция 7.4. Сравнение данных, загруженных из БД
+        //Groups before = app.group().allSet();
+
+        //Лекция 7.4. Сравнение данных, загруженных из БД
+        Groups before = app.db().groups();
         GroupData groupToModify = before.iterator().next();
 
         //int index = before.size() - 1;
 
         GroupData group = new GroupData().withId(groupToModify.getId()).withName("test11")
                 .withHeader("test22").withFooter("test33");
+        app.goTo().groupPage();
         app.group().modify(group);
+
         //Хеширование(Предварительная проверка при помощи более быстрой операции):
         assertThat(app.group().count(), equalTo(before.size()));
 
@@ -48,7 +61,10 @@ public class GroupModificationTests extends TestBase {
         //Лекция 5.6. Hamcrest: улучшение внешнего вида проверок
         //Set<GroupData> after = app.group().allSet();
 
-        Groups after = app.group().allSet();
+//Лекция 7.4. Сравнение данных, загруженных из БД
+        //Groups after = app.group().allSet();
+        Groups after = app.db().groups();
+
 //Лекция 5.8. Хеширование и предварительные проверки (Переносим проверку выше, перед выполнением длительной операции)
         //assertEquals(after.size(),before.size());
 
