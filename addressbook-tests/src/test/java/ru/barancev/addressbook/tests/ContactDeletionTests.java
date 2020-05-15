@@ -19,11 +19,20 @@ public class ContactDeletionTests extends TestBase {
 
     @BeforeMethod
     public void ensurePreconditions(){
-        if (app.contact().all().size() == 0) {
+        //Задание №15: Реализовать проверку данных, загружаемых из БД
+//        if (app.contact().all().size() == 0) {
+//            app.contact().create(new ContactData().withFirstname("Peter").withMiddlename("I")
+//                    .withLastname("Pen").withNickname("PeterP").withTitle("Mr").withCompany("Good Company")
+//                    .withAddress("5858 GoodGuy Street, London, England").withHomePhone("455-566-5951")
+//                    .withGroup("test1"));
+//        }
+
+        if (app.db().contacts().size() == 0) {
+            app.goTo().homePage();
             app.contact().create(new ContactData().withFirstname("Peter").withMiddlename("I")
                     .withLastname("Pen").withNickname("PeterP").withTitle("Mr").withCompany("Good Company")
                     .withAddress("5858 GoodGuy Street, London, England").withHomePhone("455-566-5951")
-                    .withGroup("test1"));
+                    .withGroup("test1"), true);
         }
     }
 
@@ -32,14 +41,20 @@ public class ContactDeletionTests extends TestBase {
         //NavigationHelper.gotoHomePage();
         app.goTo().homePage();
 
+        //Задание №15: Реализовать проверку данных, загружаемых из БД
+        //Contacts before = app.contact().all();
+        Contacts before = app.db().contacts();
 
-        Contacts before = app.contact().all();
         ContactData deletedContact = before.iterator().next();
 
         //int index = before.size() - 1;
+        app.goTo().homePage();
         app.contact().delete(deletedContact);
         Thread.sleep(4000);
-        Contacts after = app.contact().all();
+
+        //Задание №15: Реализовать проверку данных, загружаемых из БД
+        //Contacts after = app.contact().all();
+        Contacts after = app.db().contacts();
 
 
         //Сравнение количества контактов до и после создания

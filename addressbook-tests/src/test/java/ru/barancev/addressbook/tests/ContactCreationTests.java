@@ -87,7 +87,9 @@ public class ContactCreationTests extends TestBase {
     //Формирование списка контактов до создания нового контакта
    // Set<ContactData> before = app.contact().all();
 
-    Contacts before = app.contact().all();
+    //Задание №15: Реализовать проверку данных, загружаемых из БД
+    //Contacts before = app.contact().all();
+    Contacts before = app.db().contacts();
 
     //int before = app.getContactHelper().getContactsCount();
 
@@ -101,13 +103,15 @@ public class ContactCreationTests extends TestBase {
 //    ContactData contact = new ContactData().withFirstname(firstname)
 //            .withLastname(lastname).withNickname(nickname);
 
-
+    app.goTo().homePage();
     app.contact().create(contact);
 
     //Формирование списка контактов после создания нового контакта
     //Set<ContactData> after = app.contact().all();
-    Contacts after = app.contact().all();
 
+    //Задание №15: Реализовать проверку данных, загружаемых из БД
+    //Contacts after = app.contact().all();
+    Contacts after =app.db().contacts();
 
     //int after = app.getContactHelper().getContactsCount();
     //Сравнение количества контактов до и после создания
