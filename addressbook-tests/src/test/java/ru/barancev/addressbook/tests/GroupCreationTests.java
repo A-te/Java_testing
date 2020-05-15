@@ -142,6 +142,7 @@ public class GroupCreationTests extends TestBase {
             g.getId()).max().getAsInt()));
 
     assertThat(after, equalTo(beforePlusAdded));
+    verifyGroupListInUi();
   }
 
 //    //Лекция 6.4. Параметризация тестовых методов(примитивный метод):
@@ -227,16 +228,25 @@ public class GroupCreationTests extends TestBase {
   @Test
   public void testBadGroupCreation() throws Exception {
 
-    app.goTo().groupPage();
-    Groups before = app.group().allSet();
+
+
+    //Groups before = app.group().allSet();
+    Groups before = app.db().groups();
+
     GroupData group = new GroupData().withName("test1'");
+
+    app.goTo().groupPage();
     app.group().create(group);
     //Хеширование(Предварительная проверка прри помощи более быстрой операции):
     assertThat(app.group().count(), equalTo(before.size()));
-    Groups after = app.group().allSet();
+
+    //Groups after = app.group().allSet();
+    Groups after = app.db().groups();
+
 //Лекция 5.8. Хеширование и предварительные проверки
     //assertThat(after.size(), equalTo(before.size()));
     assertThat(after, equalTo(before));
+    verifyGroupListInUi();
   }
 
 }

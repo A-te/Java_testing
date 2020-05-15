@@ -71,6 +71,7 @@ public class GroupDeletionTests extends TestBase {
         //Лекция 5.6. Hamcrest: улучшение внешнего вида проверок
         //Assert.assertEquals(before, after);
         assertThat(after, equalTo(before.withOut(groupToDelete)));
+        verifyGroupListInUi();
     }
 
 

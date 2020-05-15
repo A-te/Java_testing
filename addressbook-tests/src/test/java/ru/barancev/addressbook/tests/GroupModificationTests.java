@@ -82,9 +82,7 @@ public class GroupModificationTests extends TestBase {
 //
 //        Assert.assertEquals(after, before);
         assertThat(after, equalTo(before.withOut(groupToModify).withAdded(group)));
-
+        verifyGroupListInUi();
     }
-
-
 
 }
