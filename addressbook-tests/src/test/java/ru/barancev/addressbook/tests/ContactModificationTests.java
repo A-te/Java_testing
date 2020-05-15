@@ -8,6 +8,7 @@ import org.testng.annotations.Test;
 import ru.barancev.addressbook.model.ContactData;
 import ru.barancev.addressbook.model.Contacts;
 
+import java.io.File;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
@@ -20,7 +21,17 @@ public class ContactModificationTests extends TestBase {
 
     @BeforeMethod
     public void ensurePreconditions(){
-        if (app.contact().all().size() == 0) {
+        //Задание №15: Реализовать проверку данных, загружаемых из БД
+//        app.goTo().homePage();
+//        if (app.contact().all().size() == 0) {
+//            app.contact().create(new ContactData().withFirstname("Peter").withMiddlename("I")
+//                    .withLastname("Pen").withNickname("PeterP").withTitle("Mr").withCompany("Good Company")
+//                    .withAddress("5858 GoodGuy Street, London, England").withHomePhone("455-566-5951")
+//                    .withGroup("test1"), true);
+//        }
+
+        if (app.db().contacts().size() == 0) {
+            app.goTo().homePage();
             app.contact().create(new ContactData().withFirstname("Peter").withMiddlename("I")
                     .withLastname("Pen").withNickname("PeterP").withTitle("Mr").withCompany("Good Company")
                     .withAddress("5858 GoodGuy Street, London, England").withHomePhone("455-566-5951")
@@ -31,21 +42,30 @@ public class ContactModificationTests extends TestBase {
 
     @Test
     public void testContactModification(){
+        File photo = new File("src/test/resources/logo.png");
 
         app.goTo().homePage();
-        Contacts before = app.contact().all();
+
+        //Задание №15: Реализовать проверку данных, загружаемых из БД
+        //Contacts before = app.contact().all();
+        Contacts before = app.db().contacts();
+
         ContactData modifiedContact = before.iterator().next();
         //int index = before.size()-1;
         ContactData contact = new ContactData().withId(modifiedContact.getId())
-                .withFirstname("Peter3333").withMiddlename("I2").withLastname("Pen222")
+                .withFirstname("Peter93333").withMiddlename("I2").withLastname("Pen9222")
                 .withNickname("PeterP2").withTitle("Mr").withCompany("Good Company")
-                .withAddress("5858 GoodGuy Street, London, England").withHomePhone("455-566-5951");
+                .withAddress("5858 GoodGuy Street, London, England").withHomePhone("455-566-5951").withPhoto(photo);
 
         //int before = app.getContactHelper().getContactsCount();
         //app.getNavigationHelper().gotoContactSelect(before - 1);
 
+        app.goTo().homePage();
         app.contact().modify(contact);
-        Contacts after = app.contact().all();
+
+        //Задание №15: Реализовать проверку данных, загружаемых из БД
+        //Contacts after = app.contact().all();
+        Contacts after = app.db().contacts();
 
         //int after = app.getContactHelper().getContactsCount();
 

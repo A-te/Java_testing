@@ -18,11 +18,17 @@ public class GroupDeletionTests extends TestBase {
 
     @BeforeMethod
     public void ensurePrecondition(){
-        app.goTo().groupPage();
 
-        if (app.group().allSet().size() == 0) {
+
+        if (app.db().groups().size() == 0){
+            app.goTo().groupPage();
             app.group().create(new GroupData().withName("test1").withHeader("test2").withFooter("test3"));
         }
+
+        //app.goTo().groupPage();
+//        if (app.group().allSet().size() == 0) {
+//            app.group().create(new GroupData().withName("test1").withHeader("test2").withFooter("test3"));
+//        }
     }
 
 
@@ -30,12 +36,16 @@ public class GroupDeletionTests extends TestBase {
     public void testDeleteGroup() throws Exception {
 
         //int before = app.getGroupHelper().getGroupCount();
-        Groups before = app.group().allSet();
+
+        //Задание №15: Реализовать проверку данных, загружаемых из БД
+        //Groups before = app.group().allSet();
+        Groups before = app.db().groups();
 
         GroupData groupToDelete = before.iterator().next();
 
         //int index = before.size() - 1;
 
+        app.goTo().groupPage();
         app.group().delete(groupToDelete);
 
         //int after = app.getGroupHelper().getGroupCount();
@@ -43,7 +53,9 @@ public class GroupDeletionTests extends TestBase {
         //Хеширование(Предварительная проверка прри помощи более быстрой операции):
         assertThat(app.group().count(), equalTo(before.size()-1));
 
-        Groups after = app.group().allSet();
+        //Задание №15: Реализовать проверку данных, загружаемых из БД
+        //Groups after = app.group().allSet();
+        Groups after = app.db().groups();
 
         //Лекция 5.8. Хеширование и предварительные проверки(переносим проверку выше)
         //assertEquals(after.size(), before.size() - 1);

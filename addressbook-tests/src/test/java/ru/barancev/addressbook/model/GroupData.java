@@ -25,6 +25,17 @@ public class GroupData {
     @Column(name="group_name")
     private  String name;
 
+    @Expose
+    @Column(name="group_header")
+    @Type(type="text")
+    private  String header;
+
+    @Expose
+    @Column(name="group_footer")
+    @Type(type="text")
+    private  String footer;
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -47,15 +58,6 @@ public class GroupData {
         return result;
     }
 
-    @Expose
-    @Column(name="group_header")
-    @Type(type="text")
-    private  String header;
-
-    @Expose
-    @Column(name="group_footer")
-    @Type(type="text")
-    private  String footer;
 
     public GroupData withName(String name) {
         this.name = name;

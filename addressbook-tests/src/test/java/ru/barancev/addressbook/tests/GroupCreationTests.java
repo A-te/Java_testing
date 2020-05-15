@@ -122,12 +122,26 @@ public class GroupCreationTests extends TestBase {
     //GroupData group = new GroupData().withName(name).withHeader(header).withFooter(footer);
 
     app.goTo().groupPage();
-    Groups before = app.group().allSet();
+
+    //Задание №15: Реализовать проверку данных, загружаемых из БД
+    //Groups before = app.group().allSet();
+    Groups before = app.db().groups();
+
     app.group().create(group);
     assertThat(app.group().count(), equalTo(before.size()+1));
-    Groups after = app.group().allSet();
-    assertThat(after, equalTo(before.withAdded(group.withId(after.stream().mapToInt((g) ->
-            g.getId()).max().getAsInt()))));
+
+    //Задание №15: Реализовать проверку данных, загружаемых из БД
+    //Groups after = app.group().allSet();
+    Groups after = app.db().groups();
+
+    //Задание №15: Реализовать проверку данных, загружаемых из БД (для дебаггинга)
+//    assertThat(after, equalTo(before.withAdded(group.withId(after.stream().mapToInt((g) ->
+//            g.getId()).max().getAsInt()))));
+
+    Groups beforePlusAdded = before.withAdded(group.withId(after.stream().mapToInt((g) ->
+            g.getId()).max().getAsInt()));
+
+    assertThat(after, equalTo(beforePlusAdded));
   }
 
 //    //Лекция 6.4. Параметризация тестовых методов(примитивный метод):
