@@ -70,6 +70,7 @@ public class ContactDeletionTests extends TestBase {
 //        }
         //Assert.assertEquals(before, after);
         assertThat(after, equalTo(before.without(deletedContact)));
+        verifyContactListInUi();
     }
 
 

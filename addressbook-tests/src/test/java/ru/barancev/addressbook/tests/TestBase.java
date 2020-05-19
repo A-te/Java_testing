@@ -10,6 +10,8 @@ import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import ru.barancev.addressbook.appmanager.ApplicationManager;
+import ru.barancev.addressbook.model.ContactData;
+import ru.barancev.addressbook.model.Contacts;
 import ru.barancev.addressbook.model.GroupData;
 import ru.barancev.addressbook.model.Groups;
 
@@ -70,6 +72,22 @@ public class TestBase {
                     .withName(g.getName())).collect(Collectors.toSet())));
         }
 
+    }
+
+    public void verifyContactListInUi() {
+        if (Boolean.getBoolean("verifyUI")){
+            Contacts dbContacts = app.db().contacts();
+            Contacts uiContacts = app.contact().all();
+            assertThat(uiContacts, equalTo(dbContacts.stream().map((c) -> new ContactData().withId(c.getId())
+                    .withFirstname(c.getFirstname())
+                    .withMiddlename(c.getMiddlename())
+                    .withLastname(c.getLastname())
+                    .withNickname(c.getNickname())
+                    .withTitle(c.getTitle())
+                    .withCompany(c.getCompany())
+                    .withAddress(c.getAddress())
+                    .withHomePhone(c.getHomePhone())).collect(Collectors.toSet())));
+        }
     }
 
 }

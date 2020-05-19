@@ -167,6 +167,7 @@ public class ContactCreationTests extends TestBase {
 //Лекция 5.6. Hamcrest: улучшение внешнего вида проверок
 //    Assert.assertEquals(after, before);
     assertThat(after, equalTo(before.withAdded(contact)));
+    verifyContactListInUi();
 
     //Сравнение через множества (сеты)
     //Assert.assertEquals(new HashSet<Object>(after), new HashSet<Object>(before));
