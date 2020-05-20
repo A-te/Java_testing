@@ -47,12 +47,24 @@ public class ContactHelper extends BaseHelper {
         type(By.name("home"), newContact.getHomePhone());
         attach(By.name("photo"), newContact.getPhoto());
 
-        if (creation) {
-            new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(newContact.getGroup());
-        } else {
-            Assert.assertFalse(isElementPresent(By.name("new_group")));
-        }
 
+        //Лекция 7.6. Связи между объектами
+//        if (creation) {
+//            new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(newContact.getGroup());
+//        } else {
+//            Assert.assertFalse(isElementPresent(By.name("new_group")));
+//        }
+        if (creation) {
+            if (newContact.getGroups().size() > 0) {
+
+                Assert.assertTrue(newContact.getGroups().size() == 1);
+                new Select(wd.findElement(By.name("new_group")))
+                        .selectByVisibleText(newContact.getGroups().iterator().next().getName());
+            } else {
+                Assert.assertFalse(isElementPresent(By.name("new_group")));
+            }
+
+        }
     }
 
     public void clickUpdateContact() {
@@ -114,7 +126,7 @@ public class ContactHelper extends BaseHelper {
 //    }
 
     //Лекция 5.6. Hamcrest: улучшение внешнего вида проверок
-    public Contacts all() {
+    public Contacts all(){
         Contacts contacts = new Contacts();
         List<WebElement> elements = wd.findElements(By.name("entry"));
         for (WebElement element : elements){

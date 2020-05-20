@@ -6,6 +6,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import ru.barancev.addressbook.model.ContactData;
 import ru.barancev.addressbook.model.Contacts;
+import ru.barancev.addressbook.model.Groups;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -66,10 +67,16 @@ public class ContactCreationTests extends TestBase {
 //public void testContactCreation(String firstname,String lastname,String nickname) throws Exception {
 
   public void testContactCreation(ContactData contact) throws Exception {
+    //Лекция 7.6. Связи между объектами
+    Groups groups = app.db().groups();
+//    File photo = new File("src/test/resources/logo.png");
+//    contact.withMiddlename("I").withTitle("Mr").withCompany("Good Company")
+//            .withAddress("5858 GoodGuy Street, London, England").withHomePhone("455-566-5951")
+//            .withGroup("test1").withPhoto(photo);
     File photo = new File("src/test/resources/logo.png");
     contact.withMiddlename("I").withTitle("Mr").withCompany("Good Company")
             .withAddress("5858 GoodGuy Street, London, England").withHomePhone("455-566-5951")
-            .withGroup("test1").withPhoto(photo);
+            .withPhoto(photo).inGroup(groups.iterator().next());
 
     //app.goTo().homePage();
     //ContactData contact = new ContactData().withFirstname(firstname)

@@ -32,10 +32,15 @@ public class ContactModificationTests extends TestBase {
 
         if (app.db().contacts().size() == 0) {
             app.goTo().homePage();
+            //Лекция 7.6. Связи между объектами
+//            app.contact().create(new ContactData().withFirstname("Peter").withMiddlename("I")
+//                    .withLastname("Pen").withNickname("PeterP").withTitle("Mr").withCompany("Good Company")
+//                    .withAddress("5858 GoodGuy Street, London, England").withHomePhone("455-566-5951")
+//                    .withGroup("test1"), true);
             app.contact().create(new ContactData().withFirstname("Peter").withMiddlename("I")
                     .withLastname("Pen").withNickname("PeterP").withTitle("Mr").withCompany("Good Company")
                     .withAddress("5858 GoodGuy Street, London, England").withHomePhone("455-566-5951")
-                    .withGroup("test1"), true);
+                    , true);
         }
     }
 

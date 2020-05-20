@@ -5,6 +5,8 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.io.File;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name="addressbook")
@@ -39,34 +41,19 @@ public class ContactData {
     @Type(type="text")
     private String address;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        ContactData that = (ContactData) o;
-
-        if (id != that.id) return false;
-        if (firstname != null ? !firstname.equals(that.firstname) : that.firstname != null) return false;
-        if (lastname != null ? !lastname.equals(that.lastname) : that.lastname != null) return false;
-        return address != null ? address.equals(that.address) : that.address == null;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id;
-        result = 31 * result + (firstname != null ? firstname.hashCode() : 0);
-        result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
-        result = 31 * result + (address != null ? address.hashCode() : 0);
-        return result;
-    }
-
     @Column(name="home")
     @Type(type="text")
     private String homePhone;
 
-    @Transient
-    private String group;
+    //Лекция 7.6. Связи между объектами
+//    @Transient
+//    private String group;
+
+    //Лекция 7.6. Связи между объектами
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name= "address_in_groups",
+            joinColumns = @JoinColumn(name = "id"),inverseJoinColumns =@JoinColumn(name="group_id"))
+    private Set<GroupData> groups = new HashSet<GroupData>();
 
     @Column(name="mobile")
     @Type(type="text")
@@ -75,6 +62,7 @@ public class ContactData {
     @Column(name="work")
     @Type(type="text")
     private String workPhone;
+
 
     @Transient
     private String allPhones;
@@ -156,10 +144,11 @@ public class ContactData {
         return this;
     }
 
-    public ContactData withGroup(String group) {
-        this.group = group;
-        return this;
-    }
+    //Лекция 7.6. Связи между объектами
+//    public ContactData withGroup(String group) {
+//        this.group = group;
+//        return this;
+//    }
 
     public ContactData withAllPhones(String allPhones) {
         this.allPhones = allPhones;
@@ -189,6 +178,28 @@ public class ContactData {
     public ContactData withPhoto(File photo) {
         this.photo = photo.getPath();
         return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ContactData that = (ContactData) o;
+
+        if (id != that.id) return false;
+        if (firstname != null ? !firstname.equals(that.firstname) : that.firstname != null) return false;
+        if (lastname != null ? !lastname.equals(that.lastname) : that.lastname != null) return false;
+        return address != null ? address.equals(that.address) : that.address == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + (firstname != null ? firstname.hashCode() : 0);
+        result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
+        result = 31 * result + (address != null ? address.hashCode() : 0);
+        return result;
     }
 
     //Лекция 5.4. Fluent-интерфейсы
@@ -231,10 +242,14 @@ public class ContactData {
                 '}';
     }
 
+    //Лекция 7.6. Связи между объектами
+    public Groups getGroups() {
+        return new Groups(groups);
+    }
+
     public int getId() {
         return id;
     }
-
 
     public String getFirstname() {
         return firstname;
@@ -275,10 +290,10 @@ public class ContactData {
     public String getHomePhone() {
         return homePhone;
     }
-
-    public String getGroup() {
-        return group;
-    }
+    //Лекция 7.6. Связи между объектами
+//    public String getGroup() {
+//        return group;
+//    }
 
 
     public String getAllPhones() {
@@ -311,4 +326,9 @@ public class ContactData {
     }
 
 
+    //Лекция 7.6. Связи между объектами
+    public ContactData inGroup(GroupData group) {
+        groups.add(group);
+        return this;
+    }
 }
